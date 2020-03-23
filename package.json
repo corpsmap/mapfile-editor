@@ -1,0 +1,15 @@
+{
+  "name": "mapfileeditor",
+  "version": "1.0.0",
+  "description": "mapfile editor",
+  "main": "index.js",
+  "dependencies": {
+    "monaco-editor": "^0.20.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC"
+}
