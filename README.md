@@ -21,6 +21,7 @@ Twitter or File updater
 * API endpoints for CRUD ops 
 * Using GIT on DI2E
 * ...maybe postsql
+* redux
 
 ## Task 
 1 ![Flow Chart](assets/mapserver.html)
@@ -34,3 +35,41 @@ Twitter or File updater
 * 3 Styling                           3rd and 4th Week of April 
 
 * 4 Debug testing                     1st Week of May
+
+
+Read out bundler backedn of the front talk to the API
+
+(Cilent) ME
+React.js front end handle. -REACT.js handles the HTML 
+    * /
+    * /files
+    * /editor
+
+REDUX bundler data store on the front end
+    * auth-bundle 
+    * files-bunfle
+    * editor-bundle
+
+-- via http --
+
+Backend (server) Will 
+Server web application written in Node.js 6 sided polygon
+    * GET /api/files
+    * POST /api/files
+    * PUT /api/:id
+    * DELETE /api/files/:id
+    * GET /api/files/:id
+    * DELETE /api/files/:id
+    * GET /api/templates/:id
+Database on the backend oracle, sequelize
+    * FS key off the file name since on a file system (EC2_linux)
+
+    npx create-react-app cilent
+
+mapserver renders the map file as an image, focus on JSON, or text from the backend
+C or C++  
+changing the data scource, 
+
+Set up a brownbag and DEMO with KANSAS city 
+    
+    
