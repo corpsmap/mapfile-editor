@@ -42,21 +42,21 @@ Twitter or File updater
 Notes
 ------
 
-#### Frontend (Cilent) Saphirah
-React.js front end handle. -REACT.js handles the HTML 
+### Frontend (Cilent) Saphirah
+A. React.js front end handle. -REACT.js handles the HTML 
 *   /
 *   /files
 *   /editor
 
-REDUX bundler data store on the front end
+B. REDUX bundler data store on the front end
 *   auth-bundle 
 *   files-bunfle
 *   editor-bundle
-
-**via http**  _Bundler talks to Frontend and Backend_
-
-#### Backend (server) Will 
-Server web application written in Node.js; drawn in draw.io as a 6 sided polygon
+```
+**via http**  --Bundler talks to Frontend and Backend--
+```
+### Backend (server) Will 
+C. Server web application written in Node.js; drawn in draw.io as a 6 sided polygon
 *   GET /api/files
 *   POST /api/files
 *   PUT /api/:id 
@@ -65,10 +65,10 @@ Server web application written in Node.js; drawn in draw.io as a 6 sided polygon
 *   DELETE /api/files/:id
 *   GET /api/templates/:id
 
-Database on the backend oracle, sequelize
+D. Database on the backend oracle, sequelize
 * FS key off the file name since on a file system (EC2_linux)
 
-    ```npx create-react-app cilent```
+    ``` npx create-react-app cilent  ```
 
 ### Map files
 
