@@ -4,7 +4,6 @@ function Home() {
   return (
     <div>
    
-
       <h1>Home Page</h1>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque velit, lobortis ut magna
@@ -16,6 +15,7 @@ function Home() {
         consequat. Vestibulum vitae lorem tortor. In elementum ultricies tempus. Interdum et
         malesuada fames ac ante ipsum primis in faucibus.
       </p>
+      
     </div>
   );
 }

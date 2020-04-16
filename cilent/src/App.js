@@ -10,11 +10,12 @@ import ParticlesDom from "./components/Particles";
 
 function App() {
   return (
-    
+    <div>
+      <ParticlesDom />
   <Router>
     
-    <div>
-    <ParticlesDom />
+   
+    
       <NavTabs />
       
       <Route exact path="/" component={Home}/>
@@ -22,9 +23,11 @@ function App() {
       <Route exact path="/blog" component={Blog} />
       <Route path="/contact" component={Contact} />
       
-    </div>
-  </Router>
+   
     
+  </Router>
+  
+  </div>
     
   );
 }
