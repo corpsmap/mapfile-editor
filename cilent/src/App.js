@@ -1,10 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import NavTabs from "./components/NavTabs";
-import Home from "./components/pages/Home";
-import About from "./components/pages/About";
-import Blog from "./components/pages/Blog";
-import Contact from "./components/pages/Contact";
+import Login from "./components/pages/Login";
+import Editor from "./components/pages/Editor";
+import Mapview from "./components/pages/Mapview";
 import './App.css'; 
 import ParticlesDom from "./components/Particles";
 
@@ -18,10 +17,10 @@ function App() {
     
       <NavTabs />
       
-      <Route exact path="/" component={Home}/>
-      <Route exact path="/about" component={About} />
-      <Route exact path="/blog" component={Blog} />
-      <Route path="/contact" component={Contact} />
+      <Route exact path="/" component={Login}/>
+      <Route exact path="/login" component={Login}/>
+      <Route exact path="/mapview" component={Mapview}/>
+      <Route path="/editor" component={Editor}/>
       
    
     
