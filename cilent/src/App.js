@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import NavTabs from "./components/NavTabs";
-import Login from "./components/pages/Login";
-import Editor from "./components/pages/Editor";
-import Mapview from "./components/pages/Mapview";
+import NavTabs from "./NavTabs";
+import Login from "./pages/Login";
+import Editor from "./pages/Editor";
+import Mapview from "./pages/Mapview";
 import './App.css'; 
-import ParticlesDom from "./components/Particles";
+import ParticlesDom from "./Particles";
 
 function App() {
   return (
