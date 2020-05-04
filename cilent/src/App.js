@@ -8,18 +8,19 @@ import './App.css'
 import ParticlesDom from './Particles'
 import { connect } from 'redux-bundler-react'
 
-function App () {
+const App = ({ route: Route }) => {
   return (
     <div>
       <ParticlesDom />
-      <Router>
+      <Route />
+      {/* <Router>
         <NavTabs />
 
         <Route exact path='/' component={Login} />
         <Route exact path='/login' component={Login} />
         <Route exact path='/mapview' component={Mapview} />
         <Route path='/editor' component={Editor} />
-      </Router>
+      </Router> */}
     </div>
   )
 }
