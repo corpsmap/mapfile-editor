@@ -8,12 +8,14 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
       "program": "${workspaceFolder}/server.js",
       "env": {
         "PORT": "3030",
         "MAPFILE_PATH": "/Users/rdcrlwlb/code/mapfile-editor/server/mapfiles",
-        "TEMPLATE_PATH": "/Users/rdcrlwlb/code/mapfile-editor/server/templates"
+        "TEMPLATE_PATH": "server/template/"
       }
     }
   ]
