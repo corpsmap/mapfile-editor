@@ -4,6 +4,7 @@ import {
   REMOVE_CODE,
   UPDATE_CODE,
   ADD_CODE,
+  SET_CURRENT_FILE,
   ADD_FILES,
   UPDATE_FILES,
   REMOVE_FILES,
@@ -43,11 +44,17 @@ const reducer = (state, action) => {
           return code._id !== action._id
         })
       }
+    case SET_CURRENT_FILE:
+      return {
+        ...state,
+        currentCode: action.files,
+        loading: false
+      }
 
     case ADD_FILES:
       return {
         ...state,
-        favorites: [action.code, ...state.files],
+        files: [action.code, ...state.files],
         loading: false
       }
 
