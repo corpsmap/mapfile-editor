@@ -5,7 +5,6 @@ import NavTabs from "./NavTabs";
 // import Login from './pages/Login'
 // import Editor from './pages/Editor'
 // import Mapview from './pages/Mapview'
-import "./App.css";
 import ParticlesDom from "./Particles";
 import { connect } from "redux-bundler-react";
 

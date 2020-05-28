@@ -1,75 +1,53 @@
 import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { connect } from "redux-bundler-react";
+import "./nav.scss";
 
-
-
-function NavTabs({doUpdate, route, pathname})=> {
-const navItems =[
-  {url:'/', label: 'Mapfile Editor'},
-  {url:'/login', label:'Login'},
-  {url:'/files', label:'Map File List'},
-  {url:'/editor', label:'Editor'},
-
-];
-
-  navItems.map(item=>{
-    return(
-      <Navbar
-        collapseOnSelect
-        sticky="top"
-        className="navbar navbar-expand-lg navbar-light bg-light navy"
-      >
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive=navbar-nav">
-          <Nav className="nav-container">
-  
-            <Nav.Link className="navbar-brand" to="/">
-              Map Editor
-            </Nav.Link>
-  
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <Nav.Link
-                  to="/"
-                  className={
-                    window.location.pathname === "/" ||
-                    window.location.pathname === "/login"
+const NavTabs = ({ doUpdate, route, pathname }) => {
+  const navItems = [
+    { url: "/login", label: "Login" },
+    { url: "/files", label: "Map File List" },
+    { url: "/editor", label: "Editor" },
+  ];
+  return (
+    <Navbar
+      collapseOnSelect
+      sticky="top"
+      expand="lg"
+      bg="light"
+      className="navy"
+    >
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive=navbar-nav">
+        <Nav className="nav-container">
+          <ul>
+            <li>
+              <Nav.Link
+                className={("navbar-brand", "/" === pathname ? " active" : " ")}
+                href="/"
+              >
+                Mapfile Editor
+              </Nav.Link>
+            </li>
+            {navItems.map((props) => {
+              return (
+                <li>
+                  <Nav.Link
+                    className={`${props.url} ==== pathname
                       ? " active"
-                      : " "
-                  }
-                >
-                  Login
-                </Nav.Link>
-              </li>
-              <li className="nav-item">
-                <Nav.Link
-                  to="/mapview"
-                  className={
-                    window.location.pathname === "/mapview" ? " active" : " "
-                  }
-                >
-                  Mapview
-                </Nav.Link>
-              </li>
-              <li className="nav-item">
-                <Nav.Link
-                  to="/editor"
-                  className={
-                    window.location.pathname === "/editor" ? " active" : " "
-                  }
-                >
-                  Editor
-                </Nav.Link>
-              </li>
-            </ul>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-    )
-  })
-}
+                      : " "`}
+                    href={props.url}
+                  >
+                    {props.label}
+                  </Nav.Link>
+                </li>
+              );
+            })}
+          </ul>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
+  );
+};
 
-export default connect('selectRoute','selectPathname','doUpdateUrl', NavTabs)
-
+export default connect("selectRoute", "selectPathname", "doUpdateUrl", NavTabs);
