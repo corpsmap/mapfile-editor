@@ -11,14 +11,9 @@ ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>,
-<<<<<<< HEAD
   document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-=======
-  document.getElementById('root')
-)
->>>>>>> e0d1da60749c98df6ce05a8fddf6562fdc16dc01
