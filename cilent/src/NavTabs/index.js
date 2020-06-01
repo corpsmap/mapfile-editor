@@ -29,9 +29,9 @@ const NavTabs = ({ doUpdate, route, pathname }) => {
                 Mapfile Editor
               </Nav.Link>
             </li>
-            {navItems.map((props) => {
+            {navItems.map((props, i) => {
               return (
-                <li>
+                <li key={i}>
                   <Nav.Link
                     className={`${props.url} ==== pathname
                       ? " active"

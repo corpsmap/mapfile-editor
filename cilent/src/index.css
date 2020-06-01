@@ -12,6 +12,9 @@ h1 {
 p {
   color: rgb(223, 223, 223);
 }
+li {
+  color: rgb(223, 223, 223);
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

@@ -5,14 +5,20 @@ import { connect } from "redux-bundler-react";
 
 export default connect(
   "selectFilesItems",
-  ({ filesItems }) => {
+  "doEditorOpen",
+  "doUpdateUrl",
+  ({ filesItems, doEditorOpen, doUpdateUrl }) => {
     return (
       <ul>
-        {filesItems.map((file) => (
-          <li onClick={() => {
-              console.log(file.name);
-            }}>
-            name: {file.name}
+        {filesItems.map((file, i) => (
+          <li
+            key={i}
+            onClick={() => {
+              doEditorOpen(file.filename);
+              doUpdateUrl("/editor");
+            }}
+          >
+            name: {file.filename}
           </li>
         ))}
       </ul>
