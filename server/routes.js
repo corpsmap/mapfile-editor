@@ -12,7 +12,7 @@ const stat = util.promisify(fs.stat);
 const writeFile = util.promisify(fs.writeFile);
 const unlink = util.promisify(fs.unlink);
 
-const exists = filename => {
+const exists = (filename) => {
   return new Promise(async (resolve, reject) => {
     try {
       await stat(path.join(mapfilePath, filename));
@@ -29,11 +29,6 @@ const exists = filename => {
 router.use("/templates", express.static(templatePath));
 
 /**
- * Serve our mapfiles out by name
- */
-router.use("/files", express.static(path.join(mapfilePath)));
-
-/**
  * Get a list of files in our mapfiles folder
  */
 router.get("/files", async (req, res, next) => {
@@ -41,7 +36,7 @@ router.get("/files", async (req, res, next) => {
     const dir = path.join(mapfilePath);
     const files = await readdir(dir);
     let fileStats = await Promise.all(
-      files.map(async file => {
+      files.map(async (file) => {
         const stats = await stat(`${dir}/${file}`);
         return {
           type: stats.isFile() ? "file" : "folder",
@@ -49,11 +44,11 @@ router.get("/files", async (req, res, next) => {
           size: stats.size,
           last_modified: stats.mtime,
           created: stats.birthtime,
-          url: `${req.host}/api/files/${file}`
+          url: `${req.host}/api/files/${file}`,
         };
       })
     );
-    fileStats = fileStats.filter(fileinfo => {
+    fileStats = fileStats.filter((fileinfo) => {
       return fileinfo.type === "file";
     });
     res.status(200).json(fileStats);
@@ -61,7 +56,10 @@ router.get("/files", async (req, res, next) => {
     next(e);
   }
 });
-
+/**
+ * Serve our mapfiles out by name
+ */
+router.use("/files", express.static(path.join(mapfilePath)));
 /**
  * Create a new mapfile with content and filename
  * Should post with a JSON body that looks like:
