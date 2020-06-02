@@ -13,6 +13,7 @@ export default {
     const initialData = { filename: null, content: null };
     return (state = initialData, { type, payload }) => {
       switch (type) {
+        case "EDITOR_SAVE":
         case "EDITOR_UPDATED":
         case "EDITOR_FETCH_SUCCESS":
           return Object.assign({}, state, payload);
@@ -48,8 +49,27 @@ export default {
         content: content,
       },
     });
+    const root = store.selectFilesAPIRoot();
+    fetch(`${root}/api/files/`, {
+      method: "PUT",
+      body: payload,
+    })
+      .then((response) => {
+        return "Success:", response.text();
+      })
+      .catch((error) => {
+        console.error(418, error);
+      });
   },
-
+  doEditorSave: (filename, content) => ({ dispatch, store }) => {
+    dispatch({
+      type: "EDITOR_SAVE",
+      payload: {
+        filename: filename,
+        payload: content,
+      },
+    });
+  },
   selectEditorContent: (state) => {
     return state.editor.content;
   },
