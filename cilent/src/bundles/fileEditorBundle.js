@@ -55,7 +55,7 @@ export default {
       body: payload,
     })
       .then((response) => {
-        return "Success:", response.text();
+        return console.log("Success:"), response.text();
       })
       .catch((error) => {
         console.error(418, error);
