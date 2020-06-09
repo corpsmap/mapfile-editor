@@ -37,11 +37,9 @@ export default {
     const root = store.selectFilesAPIRoot();
     fetch(`${root}/api/files`)
       .then((response) => {
-        console.log("heres the response", response);
         return response.json();
       })
       .then((data) => {
-        console.log("the json response", data);
         dispatch({
           type: actions.FETCH_SUCESS,
           payload: {

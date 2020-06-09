@@ -1,11 +1,8 @@
 // eslint-disable-next-line
 import React from "react";
-// import { BrowserRouter as Router, Route } from 'react-router-dom'
 import NavTabs from "./NavTabs";
-// import Login from './pages/Login'
-// import Editor from './pages/Editor'
-// import Mapview from './pages/Mapview'
 import ParticlesDom from "./Particles";
+import Footer from "./components/Footer";
 import { connect } from "redux-bundler-react";
 
 const App = ({ route: Route }) => {
@@ -14,6 +11,7 @@ const App = ({ route: Route }) => {
       <ParticlesDom />
       <NavTabs />
       <Route />
+      <Footer />
     </div>
   );
 };

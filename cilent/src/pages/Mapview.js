@@ -1,16 +1,16 @@
-import React from "react";
-import FileList from "../components/FileList"
+// import React from "react";
+// import FileList from "../components/FileList"
 
-function Mapview() {
-  return (
-    <div>
+// function Mapview() {
+//   return (
+//     <div>
    
-      <h1>Map View</h1>
+//       <h1>Map View</h1>
       
-      <FileList />
+//       <FileList />
       
-    </div>
-  );
-}
+//     </div>
+//   );
+// }
 
-export default Mapview;
+// export default Mapview;

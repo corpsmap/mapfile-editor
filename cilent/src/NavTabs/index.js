@@ -6,7 +6,7 @@ import "./nav.scss";
 const NavTabs = ({ doUpdate, route, pathname }) => {
   const navItems = [
     { url: "/login", label: "Login" },
-    { url: "/files", label: "Map File List" },
+    // { url: "/files", label: "Map File List" },
     { url: "/editor", label: "Editor" },
   ];
   return (
@@ -23,7 +23,7 @@ const NavTabs = ({ doUpdate, route, pathname }) => {
           <ul>
             <li>
               <Nav.Link
-                className={("navbar-brand", "/" === pathname ? " active" : " ")}
+                className={`navbar-brand ${"/" === pathname ? "active" : ""}`}
                 href="/"
               >
                 Mapfile Editor
