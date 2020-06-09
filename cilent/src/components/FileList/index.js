@@ -10,27 +10,32 @@ import Col from "react-bootstrap/Col";
 export default connect(
   "selectFilesItems",
   "doEditorOpen",
-  ({ filesItems, doEditorOpen}) => {
-    return ( 
-    <Container>
+  ({ filesItems, doEditorOpen }) => {
+    return (
       <Col>
         <Card>
-          <Button className="CardBtn" onClick={() =>{doEditorOpen()}}>Add New File</Button>
-            <ul>
-              {filesItems.map((file, i) => (
-                <li
-                  key={i}
-                  onClick={() => {
-                    doEditorOpen(file.filename);
-                  }}
-                >
-                  name: {file.filename}
-                </li>
-              ))}
-            </ul>
+          <Button
+            className="CardBtn"
+            onClick={() => {
+              doEditorOpen();
+            }}
+          >
+            Add New File
+          </Button>
+          <ul>
+            {filesItems.map((file, i) => (
+              <li
+                key={i}
+                onClick={() => {
+                  doEditorOpen(file.filename);
+                }}
+              >
+                name: {file.filename}
+              </li>
+            ))}
+          </ul>
         </Card>
       </Col>
-    </Container>
     );
   }
 );
