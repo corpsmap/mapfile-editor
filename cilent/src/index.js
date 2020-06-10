@@ -1,10 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
 import createStore from "./bundles";
 import { Provider } from "redux-bundler-react";
-import "./index.css";
 import App from "./App";
+import "./index.css";
 const store = (window.store = createStore());
 
 ReactDOM.render(

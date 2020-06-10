@@ -5,11 +5,12 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Filelist from "../components/FileList";
 import Jumbotron from "react-bootstrap/Jumbotron";
+import "./editor.scss";
 
 function Editor() {
   return (
     <div>
-      <Jumbotron>
+      <Jumbotron fluid className="jumbo-edit">
         <h1>Editor Page</h1>
       </Jumbotron>
       <Row>

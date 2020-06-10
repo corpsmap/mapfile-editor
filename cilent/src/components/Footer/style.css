@@ -1,7 +1,8 @@
-.footer {
-  min-height: 100px;
+.footer .page-wrap:after {
+  min-height: 142px;
   background: #e5e5e5;
   position: relative;
+  align-self: baseline;
 }
 
 .footer span {
