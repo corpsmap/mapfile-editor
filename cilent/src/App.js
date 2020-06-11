@@ -1,13 +1,9 @@
 // eslint-disable-next-line
 import React from "react";
-import NavTabs from "./NavTabs";
-
 import Container from "react-bootstrap/Container";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Footer from "./components/Footer";
 import { connect } from "redux-bundler-react";
-
+import NavTabs from "./NavTabs";
+import Footer from "./components/Footer";
 const App = ({ route: Route }) => {
   return (
     <div className="App">

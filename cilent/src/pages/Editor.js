@@ -1,5 +1,4 @@
 import React from "react";
-import Container from "../components/Container";
 import Monaco from "../components/Editor";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";

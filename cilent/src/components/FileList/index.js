@@ -2,8 +2,9 @@ import React from "react";
 import { connect } from "redux-bundler-react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import Container from "../Container";
 import Col from "react-bootstrap/Col";
+import ListGroup from "react-bootstrap/ListGroup";
+import Tab from "react-bootstrap/Tab";
 
 //ul li
 
@@ -12,30 +13,37 @@ export default connect(
   "doEditorOpen",
   ({ filesItems, doEditorOpen }) => {
     return (
-      <Col>
-        <Card>
-          <Button
-            className="CardBtn"
-            onClick={() => {
-              doEditorOpen();
-            }}
-          >
-            Add New File
-          </Button>
-          <ul>
-            {filesItems.map((file, i) => (
-              <li
-                key={i}
-                onClick={() => {
-                  doEditorOpen(file.filename);
-                }}
-              >
-                name: {file.filename}
-              </li>
-            ))}
-          </ul>
-        </Card>
-      </Col>
+      <Tab.Container id="list-group-tabs-example" defaultActiveKey="#0">
+        <Col>
+          <Card border="info">
+            <Button
+              variant="info"
+              className="CardBtn"
+              onClick={() => {
+                doEditorOpen();
+              }}
+            >
+              Add New File
+            </Button>
+            <Card.Header as="h5">Map Files</Card.Header>
+            <ListGroup as="ul">
+              {filesItems.map((file, i) => (
+                <ListGroup.Item
+                  as="li"
+                  action
+                  href={"#" + i}
+                  key={i}
+                  onClick={() => {
+                    doEditorOpen(file.filename);
+                  }}
+                >
+                  name: {file.filename}
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </Card>
+        </Col>
+      </Tab.Container>
     );
   }
 );

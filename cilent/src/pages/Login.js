@@ -1,6 +1,5 @@
 import React from "react";
 import Form from "../components/Form";
-import Jumbotron from "react-bootstrap/Jumbotron";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -15,9 +14,7 @@ function Login() {
         <Col className="align-self center display block " md={3}>
           <Card>
             <Card.Header as="h5">Login</Card.Header>
-            <Card.Text>
-              <Form />
-            </Card.Text>
+            <Form />
           </Card>
         </Col>
       </Row>
