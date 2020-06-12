@@ -10,10 +10,11 @@ import Tab from "react-bootstrap/Tab";
 
 export default connect(
   "selectFilesItems",
+  "selectEditorIsEditing",
   "doEditorOpen",
-  ({ filesItems, doEditorOpen }) => {
+  ({ filesItems, editorIsEditing, doEditorOpen }) => {
     return (
-      <Tab.Container id="list-group-tabs-example" defaultActiveKey="#0">
+      <Tab.Container id="list-group-tabs-example" defaultActiveKey="false">
         <Col>
           <Card border="info">
             <Button
@@ -30,6 +31,9 @@ export default connect(
               {filesItems.map((file, i) => (
                 <ListGroup.Item
                   as="li"
+                  disabled={editorIsEditing}
+                  active={editorIsEditing}
+                  variant="light"
                   action
                   href={"#" + i}
                   key={i}

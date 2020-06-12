@@ -4,7 +4,8 @@ import MonacoEditor from "react-monaco-editor";
 // import API from "../utils/API";
 import { connect } from "redux-bundler-react";
 import Button from "react-bootstrap/Button";
-
+// list filename above editor with status edited
+// need filename from store called in string
 class Editor extends React.Component {
   constructor(props) {
     super(props);
@@ -22,17 +23,19 @@ class Editor extends React.Component {
   }
   onUpdate(e) {
     this.props.doEditorSave();
+    this.props.doFilesFetch();
   }
 
   render() {
     const code = this.props.editorContent;
+    let currentFile = this.props.editorFilename;
     const options = {
       selectOnLineNumbers: true,
     };
     console.log(this.props.editorIsSaving);
     return (
       <div>
-        <h5>{this.props.editorfilename}</h5>
+        <h5>{currentFile}</h5>
         <MonacoEditor
           width="800"
           height="600"
@@ -55,8 +58,10 @@ export default connect(
   "selectEditorContent",
   "selectEditorIsSaving",
   "selectEditorFilename",
+  "selectEditorUpdateFilename",
   "doEditorUpdate",
   "doEditorPut",
   "doEditorSave",
+  "doFilesFetch",
   Editor
 );

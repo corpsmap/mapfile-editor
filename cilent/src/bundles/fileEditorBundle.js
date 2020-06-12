@@ -10,7 +10,13 @@
 export default {
   name: "editor",
   getReducer: () => {
-    const initialData = { filename: null, content: null, isSaving: false};
+    const initialData = {
+      filename: null,
+      content: null,
+      isSaving: false,
+      isEditing: false,
+      updateFilename: "",
+    };
     return (state = initialData, { type, payload }) => {
       switch (type) {
         case "EDITOR_SAVE_STARTED":
@@ -29,129 +35,153 @@ export default {
     };
   },
   doEditorOpen: (filename) => ({ dispatch, store }) => {
-    if (filename){
-    const root = store.selectFilesAPIRoot();
-    fetch(`${root}/api/files/${filename}`)
-      .then((response) => {
-        return response.text();
-      })
-      .then((data) => {
-        console.log(data);
-        dispatch({
-          type: "EDITOR_FETCH_SUCCESS",
-          payload: {
-            filename: filename,
-            content: data,
-          },
-        });
-      })
-      .catch((error) => {
-        console.log(" did not grab file content", error);
+    if (filename) {
+      const root = store.selectFilesAPIRoot();
+      fetch(`${root}/api/files/${filename}`)
+        .then((response) => {
+          return response.text();
         })
-      
-    } else { dispatch({
-          type: "EDITOR_OPEN",
-          payload: {
-            filename:"",
-            content:"",
-          }
-    })
-      
+        .then((data) => {
+          console.log(data);
+          dispatch({
+            type: "EDITOR_FETCH_SUCCESS",
+            payload: {
+              filename: filename,
+              content: data,
+            },
+          });
+        })
+        .catch((error) => {
+          console.log(" did not grab file content", error);
+        });
+    } else {
+      dispatch({
+        type: "EDITOR_OPEN",
+        payload: {
+          filename: "",
+          content: "",
+        },
+      });
     }
     store.doUpdateUrl("/editor");
   },
-  doEditorUpdate: (content) => ({ dispatch, store }) => {
+  doEditorUpdate: (filename, content) => ({ dispatch, store }) => {
     dispatch({
       type: "EDITOR_UPDATED",
       payload: {
+        filename: filename,
         content: content,
+        isEditing: true,
       },
     });
   },
-  doEditorPut: () =>({dispatch, store})=>{
+  doEditorPut: (filename) => ({ dispatch, store }) => {
     const root = store.selectFilesAPIRoot();
     const content = store.selectEditorContent();
-    const filename = store.selectEditorFilename();
+    // const filename = store.selectEditorFilename();
     fetch(`${root}/api/files/${filename}`, {
       method: "PUT",
-      mode: 'cors',
-      headers:{'Content-Type': 'application/json'},
-      body: JSON.stringify({content}),
+      mode: "cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content, filename }),
     })
       .then((response) => {
         return response.ok;
       })
-      .then((ok)=>{
-        if (ok ){
-          console.log("is saving", ok)
+      .then((ok) => {
+        if (ok) {
+          console.log("is saving", ok);
           dispatch({
             type: "EDITOR_PUT_SUCCESS",
-            payload: {isSaving: false}
-        })} else {
+            payload: { isSaving: false, isEditing: false },
+          });
+        } else {
           dispatch({
             type: "EDITOR_PUT_ERROR",
-          })
+          });
         }
       })
       .catch((error) => {
         console.error(error);
       });
-    },
-    doEditorPost: (filename) =>({dispatch, store})=>{
-      const root = store.selectFilesAPIRoot();
-      const content = store.selectEditorContent();
-      fetch(`${root}/api/files`, {
-        method: "POST",
-        mode: 'cors',
-        headers:{'Content-Type': 'application/json'},
-        body:JSON.stringify({ 
-          filename: filename,
-          content:content,
-              }),
-            })
-        .then((response) => {
-          return response.ok;
-        })
-        .then((ok)=>{
-          if (ok ){
-            console.log("is saving", ok)
-            dispatch({
-              type: "EDITOR_POST_SUCCESS",
-              payload: {isSaving: false}
-          })} else {
-            dispatch({
-              type: "EDITOR_POST_ERROR",
-            })
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-      },
-      
+  },
+  doEditorPost: (filename) => ({ dispatch, store }) => {
+    const root = store.selectFilesAPIRoot();
+    const content = store.selectEditorContent();
+    fetch(`${root}/api/files`, {
+      method: "POST",
+      mode: "cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        filename: filename,
+        content: content,
+      }),
+    })
+      .then((response) => {
+        return response.ok;
+      })
+      .then((ok) => {
+        if (ok) {
+          console.log("is saving", ok);
+          dispatch({
+            type: "EDITOR_POST_SUCCESS",
+            payload: { isSaving: false, isEditing: false },
+          });
+        } else {
+          dispatch({
+            type: "EDITOR_POST_ERROR",
+          });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  },
+
   doEditorSave: () => ({ dispatch, store }) => {
     dispatch({
       type: "EDITOR_SAVE_STARTED",
-      payload:{ isSaving : true,
-      }
-    })
+      payload: { isSaving: true, isEditing: false },
+    });
     const filename = store.selectEditorFilename();
-    if (filename === ""){
-      const newfilemame = window.prompt("Please enter the filename");
-      store.doEditorPost(newfilemame);
-
-    } else {
-      store.doEditorPut()
+    const newFilename = store.selectEditorUpdateFilename();
+    const emptyFilename = filename === "";
+    const updateContent = filename === filename;
+    let updateFilename = filename !== filename;
+    switch (filename) {
+      case emptyFilename:
+        store.doEditorPost(newFilename);
+        break;
+      case updateContent:
+        store.doEditorPut(filename);
+        break;
+      case updateFilename:
+        store.doEditorPut(newFilename);
+        break;
+      case false:
+        return store.doEditorUpdate();
+      default:
+        return store;
     }
-   
+    // if (filename === "") {
+    //   ;
+    // } else {
+    //   store.doEditorPut();
+    // }
   },
-  selectEditorIsSaving:(state)=>{
+  selectEditorUpdateFilename: (state) => {
+    return state.editor.updateFilename;
+  },
+  selectEditorIsSaving: (state) => {
     return state.editor.isSaving;
   },
   selectEditorContent: (state) => {
     return state.editor.content;
   },
-  selectEditorFilename: (state)=>{
+  selectEditorFilename: (state) => {
     return state.editor.filename;
-  }
+  },
+  selectEditorIsEditing: (state) => {
+    return state.editor.isEditing;
+  },
 };
