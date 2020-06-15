@@ -15,7 +15,7 @@ export default {
       content: null,
       isSaving: false,
       isEditing: false,
-      updateFilename: "",
+      isNew: false,
     };
     return (state = initialData, { type, payload }) => {
       switch (type) {
@@ -48,6 +48,7 @@ export default {
             payload: {
               filename: filename,
               content: data,
+              isNew: false,
             },
           });
         })
@@ -58,8 +59,9 @@ export default {
       dispatch({
         type: "EDITOR_OPEN",
         payload: {
-          filename: "",
+          filename: "NewFile.map",
           content: "",
+          isNew: true,
         },
       });
     }
@@ -144,33 +146,15 @@ export default {
       payload: { isSaving: true, isEditing: false },
     });
     const filename = store.selectEditorFilename();
-    const newFilename = store.selectEditorUpdateFilename();
-    const emptyFilename = filename === "";
-    const updateContent = filename === filename;
-    let updateFilename = filename !== filename;
-    switch (filename) {
-      case emptyFilename:
-        store.doEditorPost(newFilename);
-        break;
-      case updateContent:
-        store.doEditorPut(filename);
-        break;
-      case updateFilename:
-        store.doEditorPut(newFilename);
-        break;
-      case false:
-        return store.doEditorUpdate();
-      default:
-        return store;
+    const isNew = store.selectEditorIsNew();
+    if (isNew) {
+      store.doEditorPost(filename);
+    } else {
+      store.doEditorPut(filename);
     }
-    // if (filename === "") {
-    //   ;
-    // } else {
-    //   store.doEditorPut();
-    // }
   },
-  selectEditorUpdateFilename: (state) => {
-    return state.editor.updateFilename;
+  selectEditorIsNew: (state) => {
+    return state.editor.isNew;
   },
   selectEditorIsSaving: (state) => {
     return state.editor.isSaving;

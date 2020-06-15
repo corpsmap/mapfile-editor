@@ -1,6 +1,7 @@
 // import { createSelector } from 'redux-bundler';
 const actions = {
   FETCH_SUCESS: "FETCH_SUCCESS",
+  FETCH_START: "FETCH_START",
 };
 
 // you can create on giant action file
@@ -14,6 +15,7 @@ export default {
       apiRoot:
         process.env.NODE_ENV === "development" ? "http://localhost:3030" : "",
       items: [],
+      shouldFetch: false,
     };
     // if state has something it it ignores initial data but not it sets it as state,
     //
@@ -27,6 +29,13 @@ export default {
           state,
           payload
         );
+      } else if (type === actions.FETCH_START) {
+        return Object.assign({}, state, payload);
+      } else if (
+        type === "EDITOR_PUT_SUCCESS" ||
+        type === "EDITOR_POST_SUCCESS"
+      ) {
+        return Object.assign({}, state, { shouldFetch: true });
       } else {
         // always return state or the app will hang up
         return state;
@@ -34,6 +43,12 @@ export default {
     };
   },
   doFilesFetch: () => ({ dispatch, store }) => {
+    dispatch({
+      type: actions.FETCH_START,
+      payload: {
+        shouldFetch: false,
+      },
+    });
     const root = store.selectFilesAPIRoot();
     fetch(`${root}/api/files`)
       .then((response) => {
@@ -58,6 +73,9 @@ export default {
   },
   selectFilesItems: (state) => {
     return state.files.items;
+  },
+  reactFilesShouldFetch: (state) => {
+    if (state.files.shouldFetch) return { actionCreator: "doFilesFetch" };
   },
   init: (store) => {
     store.doFilesFetch();

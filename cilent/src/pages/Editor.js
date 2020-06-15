@@ -12,8 +12,8 @@ function Editor() {
       <Jumbotron fluid className="jumbo-edit">
         <h1>Editor Page</h1>
       </Jumbotron>
-      <Row>
-        <Col>
+      <Row className="editor-row">
+        <Col md className="monaco-col">
           <Monaco />
         </Col>
         <Col md={{ span: 4, offset: -8 }} className="display-inline">
