@@ -60,7 +60,7 @@ export default {
         type: "EDITOR_OPEN",
         payload: {
           filename: "NewFile.map",
-          content: "",
+          content: "//Start Here",
           isNew: true,
         },
       });
@@ -77,10 +77,11 @@ export default {
       },
     });
   },
-  doEditorPut: (filename) => ({ dispatch, store }) => {
+  doEditorPut: () => ({ dispatch, store }) => {
     const root = store.selectFilesAPIRoot();
     const content = store.selectEditorContent();
-    // const filename = store.selectEditorFilename();
+    const filename = store.selectEditorFilename();
+    console.log("put", filename);
     fetch(`${root}/api/files/${filename}`, {
       method: "PUT",
       mode: "cors",
@@ -100,6 +101,7 @@ export default {
         } else {
           dispatch({
             type: "EDITOR_PUT_ERROR",
+            payload: { isEditing: false, isSaving: false },
           });
         }
       })
@@ -146,6 +148,7 @@ export default {
       payload: { isSaving: true, isEditing: false },
     });
     const filename = store.selectEditorFilename();
+    console.log("save", filename);
     const isNew = store.selectEditorIsNew();
     if (isNew) {
       store.doEditorPost(filename);
@@ -155,6 +158,9 @@ export default {
   },
   selectEditorIsNew: (state) => {
     return state.editor.isNew;
+  },
+  selectEditorFileNotFound: (state) => {
+    return state.editor.fileNotFound;
   },
   selectEditorIsSaving: (state) => {
     return state.editor.isSaving;

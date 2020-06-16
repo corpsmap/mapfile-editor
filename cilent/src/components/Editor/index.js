@@ -7,6 +7,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+
+import Spinner from "react-bootstrap/Spinner";
 import Container from "react-bootstrap/Container";
 import Header from "react-bootstrap/ModalHeader";
 import "./index.scss";
@@ -63,7 +65,22 @@ class Editor extends React.Component {
                         placeholder={currentFile}
                         value={currentFile}
                         onChange={this.onNameChange}
-                      ></Form.Control>
+                      ></Form.Control>{" "}
+                      <Button
+                        disabled={this.props.editorIsSaving}
+                        onClick={this.onUpdate}
+                      >
+                        {" "}
+                        Save File
+                        <Spinner
+                          as="span"
+                          animation="grow"
+                          size="sm"
+                          role="status"
+                          aria-hidden={this.props.editorIsSaving}
+                        />
+                        <span className="sr-only">Saving..</span>
+                      </Button>
                     </Col>
                   </Form.Group>
                 </Form>{" "}
@@ -78,16 +95,6 @@ class Editor extends React.Component {
                     onChange={this.onChange}
                     editorDidMount={this.editorDidMount}
                   />
-                  <Button
-                    disabled={this.props.editorIsSaving}
-                    onClick={this.onUpdate}
-                  >
-                    Save File{" "}
-                    {/* <i
-          className="fa fa-spinner fa-spin"
-          aria-hidden={this.props.editorIsSaving}
-        /> */}
-                  </Button>
                 </div>
               </Col>
             </Row>
