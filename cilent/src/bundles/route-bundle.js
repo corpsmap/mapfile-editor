@@ -7,5 +7,6 @@ export default createRouteBundle({
   "/": Login,
   "/login": Login,
   "/files": Editor,
+  "/files/:filename": Editor,
   "*": Login,
 });

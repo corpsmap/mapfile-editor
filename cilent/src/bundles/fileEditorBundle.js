@@ -16,6 +16,7 @@ export default {
       isSaving: false,
       isEditing: false,
       isNew: false,
+      existingFilename: __filename,
     };
     return (state = initialData, { type, payload }) => {
       switch (type) {
@@ -65,7 +66,7 @@ export default {
         },
       });
     }
-    store.doUpdateUrl("/editor");
+    store.doUpdateUrl(`/files/${filename}`);
   },
   doEditorUpdate: (filename, content) => ({ dispatch, store }) => {
     dispatch({
@@ -77,12 +78,15 @@ export default {
       },
     });
   },
+
+  doGetUrl: () => ({ dispatch, store }) => {},
+
   doEditorPut: (filename) => ({ dispatch, store }) => {
     const root = store.selectFilesAPIRoot();
     const content = store.selectEditorContent();
-    const existingFilename = store.selectEditorFilename();
+    const existingFilename = store.selectPathname();
     console.log("put", filename, "existing", existingFilename);
-    fetch(`${root}/api/files/${existingFilename}`, {
+    fetch(`${root}/api${existingFilename}`, {
       method: "PUT",
       mode: "cors",
       headers: { "Content-Type": "application/json" },

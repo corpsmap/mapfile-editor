@@ -7,7 +7,7 @@ const NavTabs = ({ doUpdate, route, pathname }) => {
   const navItems = [
     { url: "/login", label: "Login" },
     // { url: "/files", label: "Map File List" },
-    { url: "/editor", label: "Editor" },
+    { url: "/files", label: "Editor" },
   ];
   return (
     <Navbar
