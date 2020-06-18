@@ -29,7 +29,7 @@ export default connect(
             >
               Add New File
             </Button>
-            <Card.Header as="h5">Map Files</Card.Header>
+            <Card.Header as="h4">Map Files</Card.Header>
             <ListGroup as="ul">
               {filesItems.map((file, i) => (
                 <OverlayTrigger
