@@ -5,14 +5,17 @@ import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 import Tab from "react-bootstrap/Tab";
-
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
+import "./filelist.scss";
 //ul li
 
 export default connect(
   "selectFilesItems",
   "selectEditorIsEditing",
   "doEditorOpen",
-  ({ filesItems, editorIsEditing, doEditorOpen }) => {
+  "doEditorDelete",
+  ({ filesItems, editorIsEditing, doEditorOpen, doEditorDelete }) => {
     return (
       <Tab.Container id="list-group-tabs-example" defaultActiveKey="false">
         <Col>
@@ -29,20 +32,38 @@ export default connect(
             <Card.Header as="h5">Map Files</Card.Header>
             <ListGroup as="ul">
               {filesItems.map((file, i) => (
-                <ListGroup.Item
-                  as="li"
-                  disabled={editorIsEditing}
-                  active={editorIsEditing}
-                  variant="light"
-                  action
-                  href={"#" + i}
+                <OverlayTrigger
                   key={i}
-                  onClick={() => {
-                    doEditorOpen(file.filename);
-                  }}
+                  placement="left"
+                  overlay={
+                    <Tooltip id={`tooltip-left`}>
+                      {" "}
+                      Click on the filename to open the <strong>Editor</strong>
+                    </Tooltip>
+                  }
                 >
-                  name: {file.filename}
-                </ListGroup.Item>
+                  <ListGroup.Item
+                    as="li"
+                    disabled={editorIsEditing}
+                    active={editorIsEditing}
+                    variant="light"
+                    action
+                    href={"#" + i}
+                    key={i}
+                    onClick={() => {
+                      doEditorOpen(file.filename);
+                    }}
+                  >
+                    <h5 className="file">{file.filename}</h5>
+                    <Button
+                      variant="primary"
+                      className="deleteBtn"
+                      onClick={() => doEditorDelete(file.filename)}
+                    >
+                      X
+                    </Button>
+                  </ListGroup.Item>
+                </OverlayTrigger>
               ))}
             </ListGroup>
           </Card>

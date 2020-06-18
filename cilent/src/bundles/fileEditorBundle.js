@@ -16,10 +16,11 @@ export default {
       isSaving: false,
       isEditing: false,
       isNew: false,
-      existingFilename: __filename,
     };
     return (state = initialData, { type, payload }) => {
       switch (type) {
+        case "EDITOR_DELETE_SUCCESS":
+        case "EDITOR_DELETE_ERROR":
         case "EDITOR_SAVE_STARTED":
         case "EDITOR_OPEN":
         case "EDITOR_POST_ERROR":
@@ -79,7 +80,32 @@ export default {
     });
   },
 
-  doEditorDelete: () => ({ dispatch, store }) => {},
+  doEditorDelete: (filename) => ({ dispatch, store }) => {
+    const root = store.selectFilesAPIRoot();
+    // const filename = store.selectEditorFilename();
+    fetch(`${root}/api/files/${filename}`, {
+      method: "DELETE",
+      mode: "cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ filename }),
+    })
+      .then((response) => {
+        return response.ok;
+      })
+      .then((ok) => {
+        if (ok) {
+          dispatch({
+            type: "EDITOR_DELETE_SUCCESS",
+            payload: {},
+          });
+        } else {
+          dispatch({ type: "EDITOR_DELETE_ERROR", payload: {} });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  },
 
   doEditorPut: (filename) => ({ dispatch, store }) => {
     const root = store.selectFilesAPIRoot();
@@ -162,9 +188,6 @@ export default {
   },
   selectEditorIsNew: (state) => {
     return state.editor.isNew;
-  },
-  selectEditorFileNotFound: (state) => {
-    return state.editor.fileNotFound;
   },
   selectEditorIsSaving: (state) => {
     return state.editor.isSaving;

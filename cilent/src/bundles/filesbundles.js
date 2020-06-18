@@ -33,7 +33,8 @@ export default {
         return Object.assign({}, state, payload);
       } else if (
         type === "EDITOR_PUT_SUCCESS" ||
-        type === "EDITOR_POST_SUCCESS"
+        type === "EDITOR_POST_SUCCESS" ||
+        type === "EDITOR_DELETE_SUCCESS"
       ) {
         return Object.assign({}, state, { shouldFetch: true });
       } else {
