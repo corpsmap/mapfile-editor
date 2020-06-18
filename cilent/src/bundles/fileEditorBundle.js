@@ -77,12 +77,12 @@ export default {
       },
     });
   },
-  doEditorPut: () => ({ dispatch, store }) => {
+  doEditorPut: (filename) => ({ dispatch, store }) => {
     const root = store.selectFilesAPIRoot();
     const content = store.selectEditorContent();
-    const filename = store.selectEditorFilename();
-    console.log("put", filename);
-    fetch(`${root}/api/files/${filename}`, {
+    const existingFilename = store.selectEditorFilename();
+    console.log("put", filename, "existing", existingFilename);
+    fetch(`${root}/api/files/${existingFilename}`, {
       method: "PUT",
       mode: "cors",
       headers: { "Content-Type": "application/json" },
@@ -142,12 +142,12 @@ export default {
       });
   },
 
-  doEditorSave: () => ({ dispatch, store }) => {
+  doEditorSave: (filename) => ({ dispatch, store }) => {
     dispatch({
       type: "EDITOR_SAVE_STARTED",
       payload: { isSaving: true, isEditing: false },
     });
-    const filename = store.selectEditorFilename();
+    // const filename = store.selectEditorFilename();
     console.log("save", filename);
     const isNew = store.selectEditorIsNew();
     if (isNew) {

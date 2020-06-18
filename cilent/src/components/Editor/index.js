@@ -37,7 +37,8 @@ class Editor extends React.Component {
     this.props.doEditorUpdate(currentFile, newValue);
   }
   onUpdate(e) {
-    this.props.doEditorSave();
+    let currentFile = this.props.editorFilename;
+    this.props.doEditorSave(currentFile);
   }
 
   render() {
@@ -53,11 +54,10 @@ class Editor extends React.Component {
           <Container fluid="md" className="editor-container">
             <Row className="editor-row justify-content-md">
               <Col md={{ span: 8.5, offset: -8 }}>
-                <h5>{this.props.currentFile}</h5>
                 <Form className="editor-form">
                   <Form.Group>
                     <Form.Label column lg>
-                      File Name
+                      <h5> File Name : {currentFile}</h5>
                     </Form.Label>
                     <Col lg="12">
                       <Form.Control
@@ -66,23 +66,24 @@ class Editor extends React.Component {
                         value={currentFile}
                         onChange={this.onNameChange}
                       ></Form.Control>{" "}
-                      <Button
-                        disabled={this.props.editorIsSaving}
-                        onClick={this.onUpdate}
-                      >
-                        {" "}
-                        Save File
-                        <Spinner
-                          as="span"
-                          animation="grow"
-                          size="sm"
-                          role="status"
-                          aria-hidden={this.props.editorIsSaving}
-                        />
-                        <span className="sr-only">Saving..</span>
-                      </Button>
                     </Col>
                   </Form.Group>
+                  <Button
+                    disabled={this.props.editorIsSaving}
+                    onClick={this.onUpdate}
+                    type="submit"
+                  >
+                    {" "}
+                    Save File
+                    <Spinner
+                      as="span"
+                      animation="grow"
+                      size="sm"
+                      role="status"
+                      aria-hidden={this.props.editorIsSaving}
+                    />
+                    <span className="sr-only">Saving..</span>
+                  </Button>
                 </Form>{" "}
                 <div className="position-relative">
                   <MonacoEditor
