@@ -79,7 +79,7 @@ export default {
     });
   },
 
-  doGetUrl: () => ({ dispatch, store }) => {},
+  doEditorDelete: () => ({ dispatch, store }) => {},
 
   doEditorPut: (filename) => ({ dispatch, store }) => {
     const root = store.selectFilesAPIRoot();
