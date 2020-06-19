@@ -1,15 +1,15 @@
 import React, { Component } from "react";
-import "./style.css";
+import "./form.scss";
 
 class Form extends Component {
   // Setting the component's initial state
   state = {
     firstName: "",
     lastName: "",
-    password: ""
+    password: "",
   };
 
-  handleInputChange = event => {
+  handleInputChange = (event) => {
     // Getting the value and name of the input which triggered the change
     let value = event.target.value;
     const name = event.target.name;
@@ -19,19 +19,18 @@ class Form extends Component {
     }
     // Updating the input's state
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
 
-  handleFormSubmit = event => {
+  handleFormSubmit = (event) => {
     // Preventing the default behavior of the form submit (which is to refresh the page)
     event.preventDefault();
     if (!this.state.firstName || !this.state.lastName) {
       alert("Fill out your first and last name please!");
     } else if (this.state.password.length < 6) {
       alert(
-        `Choose a more secure password ${this.state.firstName} ${this.state
-          .lastName}`
+        `Choose a more secure password ${this.state.firstName} ${this.state.lastName}`
       );
     } else {
       alert(`Hello ${this.state.firstName} ${this.state.lastName}`);
@@ -40,7 +39,7 @@ class Form extends Component {
     this.setState({
       firstName: "",
       lastName: "",
-      password: ""
+      password: "",
     });
   };
 
