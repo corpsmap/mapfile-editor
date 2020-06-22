@@ -3,12 +3,16 @@ import { Navbar, Nav } from "react-bootstrap";
 import { connect } from "redux-bundler-react";
 import "./nav.scss";
 
-const NavTabs = ({ doUpdate, route, pathname }) => {
+var NavTabs = ({ doUpdate, route, authIsLoggedIn, pathname }) => {
   const navItems = [
-    { url: "/login", label: "Login" },
+    { url: "/login", label: "Login", loggedIn: authIsLoggedIn },
     // { url: "/files", label: "Map File List" },
-    { url: "/files", label: "Editor" },
+    { url: "/files", label: "Editor", loggedIn: authIsLoggedIn },
   ];
+  function onClickLink(e) {
+    return this.props.authIsLoggedIn;
+  }
+
   return (
     <Navbar
       collapseOnSelect
@@ -37,6 +41,8 @@ const NavTabs = ({ doUpdate, route, pathname }) => {
                       ? " active"
                       : " "`}
                     href={props.url}
+                    disabled={props.loggedIn}
+                    onSelect={onClickLink}
                   >
                     {props.label}
                   </Nav.Link>
@@ -50,4 +56,10 @@ const NavTabs = ({ doUpdate, route, pathname }) => {
   );
 };
 
-export default connect("selectRoute", "selectPathname", "doUpdateUrl", NavTabs);
+export default connect(
+  "selectRoute",
+  "selectPathname",
+  "doUpdateUrl",
+  "selectAuthIsLoggedIn",
+  NavTabs
+);
