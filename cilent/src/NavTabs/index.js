@@ -4,15 +4,18 @@ import { connect } from "redux-bundler-react";
 import "./nav.scss";
 
 var NavTabs = ({ doUpdate, route, authIsLoggedIn, pathname }) => {
-  const navItems = [
-    { url: "/login", label: "Login", loggedIn: authIsLoggedIn },
-    // { url: "/files", label: "Map File List" },
-    { url: "/files", label: "Editor", loggedIn: authIsLoggedIn },
-  ];
   function onClickLink(e) {
-    return this.props.authIsLoggedIn;
+    if (authIsLoggedIn === true) {
+      return false;
+    } else {
+      return true;
+    }
   }
-
+  const navItems = [
+    { url: "/login", label: "Login", loggedIn: onClickLink() },
+    // { url: "/files", label: "Map File List" },
+    { url: "/files", label: "Editor", loggedIn: onClickLink() },
+  ];
   return (
     <Navbar
       collapseOnSelect
