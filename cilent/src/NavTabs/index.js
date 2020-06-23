@@ -3,7 +3,7 @@ import { Navbar, Nav } from "react-bootstrap";
 import { connect } from "redux-bundler-react";
 import "./nav.scss";
 
-var NavTabs = ({ doUpdate, route, authIsLoggedIn, pathname }) => {
+var NavTabs = ({ doUpdateUrl, route, authIsLoggedIn, pathname }) => {
   function onClickLink(e) {
     if (authIsLoggedIn === true) {
       return false;
@@ -12,10 +12,11 @@ var NavTabs = ({ doUpdate, route, authIsLoggedIn, pathname }) => {
     }
   }
   const navItems = [
-    { url: "/login", label: "Login", loggedIn: onClickLink() },
+    { url: "/login", label: "Login", loggedIn: false },
     // { url: "/files", label: "Map File List" },
     { url: "/files", label: "Editor", loggedIn: onClickLink() },
   ];
+  const CurrentPage = route;
   return (
     <Navbar
       collapseOnSelect
@@ -45,7 +46,7 @@ var NavTabs = ({ doUpdate, route, authIsLoggedIn, pathname }) => {
                       : " "`}
                     href={props.url}
                     disabled={props.loggedIn}
-                    onSelect={onClickLink}
+                    onSelect={doUpdateUrl(CurrentPage)}
                   >
                     {props.label}
                   </Nav.Link>
