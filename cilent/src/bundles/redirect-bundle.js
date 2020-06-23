@@ -4,6 +4,31 @@ const publicUrls = ["/", "/login", "/files", "/files/:filename"];
 
 export default {
   name: "redirects",
+  getReducer: () => {
+    const initialData = { shouldWait: false };
+    return (state = initialData, { type, payload }) => {
+      if (type === "REDIRECT_SUCCESS") {
+        return Object.assign({}, state, { shouldWait: true });
+      } else {
+        return state;
+      }
+    };
+  },
+  doTimeout: () => ({ dispatch, store }) => {
+    let allowRunTimeout = store.selectAuthIsLoggedIn;
+    let filename = store.selectEditorFilename;
+    dispatch({
+      type: "REDIRECT_SUCCESS",
+      payload: { shouldWait: false },
+    });
+    if (allowRunTimeout) {
+      return setTimeout(() => {
+        store.doUpdateUrl(`/files/${filename}`);
+      }, 3000);
+    } else {
+      return store.Window.alert("Please login");
+    }
+  },
   reactRedirects: createSelector(
     "selectAuthIsLoggedIn",
     "selectPathname",
@@ -11,8 +36,8 @@ export default {
     (authIsLoggedIn, pathname, editorFilename) => {
       if (authIsLoggedIn && publicUrls.includes(pathname)) {
         return {
-          actionCreator: "doUpdateUrl",
-          args: [`/files/${editorFilename}`],
+          actionCreator: "doTimeout",
+          args: [true],
         };
       }
       if (!authIsLoggedIn && pathname.startsWith("/files")) {
