@@ -51,7 +51,12 @@ export default {
       },
     });
     const root = store.selectFilesAPIRoot();
-    fetch(`${root}/api/files`)
+    let token = store.selectAuthToken();
+    fetch(`${root}/api/files`, {
+      method: "GET",
+      mode: "cors",
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then((response) => {
         return response.json();
       })

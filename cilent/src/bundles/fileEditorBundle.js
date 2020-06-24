@@ -38,8 +38,13 @@ export default {
   },
   doEditorOpen: (filename) => ({ dispatch, store }) => {
     if (filename) {
+      let token = store.selectAuthToken();
       const root = store.selectFilesAPIRoot();
-      fetch(`${root}/api/files/${filename}`)
+      fetch(`${root}/api/files/${filename}`, {
+        method: "GET",
+        mode: "cors",
+        headers: { Authorization: `Bearer ${token}` },
+      })
         .then((response) => {
           return response.text();
         })
@@ -82,11 +87,15 @@ export default {
 
   doEditorDelete: (filename) => ({ dispatch, store }) => {
     const root = store.selectFilesAPIRoot();
+    let token = store.selectAuthToken();
     // const filename = store.selectEditorFilename();
     fetch(`${root}/api/files/${filename}`, {
       method: "DELETE",
       mode: "cors",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({ filename }),
     })
       .then((response) => {
@@ -111,11 +120,15 @@ export default {
     const root = store.selectFilesAPIRoot();
     const content = store.selectEditorContent();
     const existingFilename = store.selectPathname();
+    let token = store.selectAuthToken();
     console.log("put", filename, "existing", existingFilename);
     fetch(`${root}/api${existingFilename}`, {
       method: "PUT",
       mode: "cors",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({ content, filename }),
     })
       .then((response) => {
@@ -142,10 +155,14 @@ export default {
   doEditorPost: (filename) => ({ dispatch, store }) => {
     const root = store.selectFilesAPIRoot();
     const content = store.selectEditorContent();
+    let token = store.selectAuthToken();
     fetch(`${root}/api/files`, {
       method: "POST",
       mode: "cors",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         filename: filename,
         content: content,
