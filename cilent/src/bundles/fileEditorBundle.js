@@ -16,10 +16,10 @@ export default {
       isSaving: false,
       isEditing: false,
       isNew: false,
-      isTemplate: false,
     };
     return (state = initialData, { type, payload }) => {
       switch (type) {
+        case "EDITOR_FETCH_TEMPLATE":
         case "EDITOR_DELETE_SUCCESS":
         case "EDITOR_DELETE_ERROR":
         case "EDITOR_SAVE_STARTED":
@@ -76,7 +76,7 @@ export default {
     store.doUpdateUrl(`/files/${filename}`);
   },
   doEditorOpenTemplate: () => ({ dispatch, store }) => {
-    let template = "template.map";
+    let template = "template.mapx";
     let token = store.selectAuthToken();
     const root = store.selectFilesAPIRoot();
     fetch(`${root}/api/templates/${template}`, {
@@ -95,7 +95,6 @@ export default {
             filename: template,
             content: data,
             isNew: true,
-            isTemplate: true,
           },
         });
       })
@@ -233,9 +232,7 @@ export default {
       store.doEditorPut(filename);
     }
   },
-  selectEditorIsTemplate: (state) => {
-    return state.editor.isTemplate;
-  },
+
   selectEditorIsNew: (state) => {
     return state.editor.isNew;
   },

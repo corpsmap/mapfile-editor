@@ -15,7 +15,14 @@ export default connect(
   "selectEditorIsEditing",
   "doEditorOpen",
   "doEditorDelete",
-  ({ filesItems, editorIsEditing, doEditorOpen, doEditorDelete }) => {
+  "doEditorOpenTemplate",
+  ({
+    filesItems,
+    editorIsEditing,
+    doEditorOpen,
+    doEditorDelete,
+    doEditorOpenTemplate,
+  }) => {
     return (
       <Tab.Container id="list-group-tabs-example" defaultActiveKey="false">
         <Col>
@@ -28,6 +35,15 @@ export default connect(
               }}
             >
               Add New File
+            </Button>
+            <Button
+              variant="dark"
+              className="CardBtn"
+              onClick={() => {
+                doEditorOpenTemplate();
+              }}
+            >
+              Use Template File
             </Button>
             <Card.Header as="h4">Map Files</Card.Header>
             <ListGroup as="ul">
