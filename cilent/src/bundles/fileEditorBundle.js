@@ -16,6 +16,7 @@ export default {
       isSaving: false,
       isEditing: false,
       isNew: false,
+      isTemplate: false,
     };
     return (state = initialData, { type, payload }) => {
       switch (type) {
@@ -73,6 +74,35 @@ export default {
       });
     }
     store.doUpdateUrl(`/files/${filename}`);
+  },
+  doEditorOpenTemplate: () => ({ dispatch, store }) => {
+    let template = "template.map";
+    let token = store.selectAuthToken();
+    const root = store.selectFilesAPIRoot();
+    fetch(`${root}/api/templates/${template}`, {
+      method: "GET",
+      mode: "cors",
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        return response.text();
+      })
+      .then((data) => {
+        console.log("template", data);
+        dispatch({
+          type: "EDITOR_FETCH_TEMPLATE",
+          payload: {
+            filename: template,
+            content: data,
+            isNew: true,
+            isTemplate: true,
+          },
+        });
+      })
+      .catch((error) => {
+        console.log("template does not exist", error);
+      });
+    store.doUpdateUrl(`/files/${template}`);
   },
   doEditorUpdate: (filename, content) => ({ dispatch, store }) => {
     dispatch({
@@ -202,6 +232,9 @@ export default {
     } else {
       store.doEditorPut(filename);
     }
+  },
+  selectEditorIsTemplate: (state) => {
+    return state.editor.isTemplate;
   },
   selectEditorIsNew: (state) => {
     return state.editor.isNew;
