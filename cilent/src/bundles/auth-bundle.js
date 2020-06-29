@@ -72,4 +72,5 @@ export default {
   selectAuthToken: (state) => {
     return state.auth.token;
   },
+  persistActions: [actions.loginSuccess, actions.logoutSuccess],
 };

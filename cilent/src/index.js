@@ -4,14 +4,17 @@ import createStore from "./bundles";
 import { Provider } from "redux-bundler-react";
 import App from "./App";
 import "./index.css";
-const store = (window.store = createStore());
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById("root")
-);
+import cache from "./cache";
+cache.getAll().then((initialData) => {
+  const store = createStore(initialData);
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById("root")
+  );
+});
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

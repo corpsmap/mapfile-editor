@@ -16,6 +16,7 @@ export default {
       isSaving: false,
       isEditing: false,
       isNew: false,
+      err: null,
     };
     return (state = initialData, { type, payload }) => {
       switch (type) {
@@ -210,6 +211,7 @@ export default {
         } else {
           dispatch({
             type: "EDITOR_POST_ERROR",
+            payload: { err: true },
           });
         }
       })
@@ -221,7 +223,7 @@ export default {
   doEditorSave: (filename) => ({ dispatch, store }) => {
     dispatch({
       type: "EDITOR_SAVE_STARTED",
-      payload: { isSaving: true, isEditing: false },
+      payload: { isSaving: true, isEditing: false, err: null },
     });
     // const filename = store.selectEditorFilename();
     console.log("save", filename);
@@ -232,7 +234,9 @@ export default {
       store.doEditorPut(filename);
     }
   },
-
+  selectEditorError: (state) => {
+    return state.editor.err;
+  },
   selectEditorIsNew: (state) => {
     return state.editor.isNew;
   },

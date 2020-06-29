@@ -15,7 +15,7 @@ export default {
       apiRoot:
         process.env.NODE_ENV === "development" ? "http://localhost:3030" : "",
       items: [],
-      shouldFetch: false,
+      shouldFetch: true,
     };
     // if state has something it it ignores initial data but not it sets it as state,
     //
@@ -29,7 +29,7 @@ export default {
           state,
           payload
         );
-      } else if (type === actions.FETCH_START) {
+      } else if (type === "FETCH_START") {
         return Object.assign({}, state, payload);
       } else if (
         type === "EDITOR_PUT_SUCCESS" ||
@@ -44,8 +44,11 @@ export default {
     };
   },
   doFilesFetch: () => ({ dispatch, store }) => {
+    if (!actions) {
+      console.log(actions);
+    }
     dispatch({
-      type: actions.FETCH_START,
+      type: "FETCH_START",
       payload: {
         shouldFetch: false,
       },
@@ -82,8 +85,5 @@ export default {
   },
   reactFilesShouldFetch: (state) => {
     if (state.files.shouldFetch) return { actionCreator: "doFilesFetch" };
-  },
-  init: (store) => {
-    store.doFilesFetch();
   },
 };

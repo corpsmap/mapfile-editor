@@ -1,6 +1,6 @@
 import { createSelector } from "redux-bundler";
 
-const publicUrls = ["/", "/login", "/files", "/files/:filename"];
+const publicUrls = ["/", "/login"];
 
 export default {
   name: "redirects",
@@ -14,37 +14,32 @@ export default {
       }
     };
   },
-  doTimeout: () => ({ dispatch, store }) => {
-    let allowRunTimeout = store.selectAuthIsLoggedIn;
-    let filename = store.selectEditorFilename;
-    dispatch({
-      type: "REDIRECT_SUCCESS",
-      payload: { shouldWait: false },
-    });
-    if (allowRunTimeout) {
-      return setTimeout(() => {
-        store.doUpdateUrl(`/files/${filename}`);
-      }, 3000);
-    } else {
-      return store.Window.alert("Please login");
-    }
-  },
+  // doTimeout: () => ({ dispatch, store }) => {
+  //   let allowRunTimeout = store.selectAuthIsLoggedIn();
+  //   let filename = store.selectEditorFilename();
+  //   dispatch({
+  //     type: "REDIRECT_SUCCESS",
+  //     payload: { shouldWait: false },
+  //   });
+  //   if (allowRunTimeout) {
+  //     return setTimeout(() => {
+  //       store.doUpdateUrl(`/files/${filename}`);
+  //     }, 3000);
+  //   } else {
+  //     return store.Window.alert("Please login");
+  //   }
+  // },
   reactRedirects: createSelector(
     "selectAuthIsLoggedIn",
     "selectPathname",
     "selectEditorFilename",
-    (authIsLoggedIn, pathname, editorFilename) => {
-      if (authIsLoggedIn && publicUrls.includes(pathname)) {
-        return {
-          actionCreator: "doTimeout",
-          args: [true],
-        };
-      }
-      if (!authIsLoggedIn && pathname.startsWith("/files")) {
+    (authIsLoggedIn, pathname) => {
+      console.log("redirect", authIsLoggedIn, pathname);
+      if (!authIsLoggedIn && !publicUrls.includes(pathname)) {
         return { actionCreator: "doUpdateUrl", args: ["/login"] };
       }
-      if (!editorFilename && pathname === "/files/null") {
-        return { actionCreator: "doReplaceUrl", args: ["/files/editor"] };
+      if (pathname === "/logout") {
+        return { actionCreator: "doAuthLogout" };
       }
       // removes trailing slash
       if (pathname !== "/" && pathname.endsWith("/")) {

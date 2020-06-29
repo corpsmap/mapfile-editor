@@ -118,6 +118,7 @@ export default connect(
   "selectEditorContent",
   "selectEditorIsSaving",
   "selectEditorFilename",
+  "selectEditorError",
   "doEditorUpdate",
   "doEditorPut",
   "doEditorSave",

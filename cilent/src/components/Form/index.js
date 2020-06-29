@@ -14,7 +14,7 @@ class Form extends Component {
     } else {
       return (
         <div>
-          <Button onClick={this.props.doAuthLogin}>Submit</Button>
+          <Button onClick={this.props.doAuthLogin}>Login with CAC</Button>
         </div>
       );
     }

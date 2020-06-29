@@ -3,20 +3,13 @@ import { Navbar, Nav } from "react-bootstrap";
 import { connect } from "redux-bundler-react";
 import "./nav.scss";
 
-var NavTabs = ({ doUpdateUrl, route, authIsLoggedIn, pathname }) => {
-  function onClickLink(e) {
-    if (authIsLoggedIn === true) {
-      return false;
-    } else {
-      return true;
-    }
-  }
+var NavTabs = ({ authIsLoggedIn, pathname }) => {
   const navItems = [
-    { url: "/login", label: "Login", loggedIn: false },
+    { url: "/logout", label: "Logout" },
     // { url: "/files", label: "Map File List" },
-    { url: "/files", label: "Editor", loggedIn: onClickLink() },
+    { url: "/files", label: "Editor" },
   ];
-  const CurrentPage = route;
+
   return (
     <Navbar
       collapseOnSelect
@@ -37,18 +30,17 @@ var NavTabs = ({ doUpdateUrl, route, authIsLoggedIn, pathname }) => {
                 Mapfile Editor
               </Nav.Link>
             </li>
-            {navItems.map((props, i) => {
+            {navItems.map((item, i) => {
               return (
                 <li key={i}>
                   <Nav.Link
-                    className={`${props.url} ==== pathname
+                    className={`${item.url} ==== pathname
                       ? " active"
                       : " "`}
-                    href={props.url}
-                    disabled={props.loggedIn}
-                    onSelect={doUpdateUrl(CurrentPage)}
+                    href={item.url}
+                    disabled={!authIsLoggedIn}
                   >
-                    {props.label}
+                    {item.label}
                   </Nav.Link>
                 </li>
               );
