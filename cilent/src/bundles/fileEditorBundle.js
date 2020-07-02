@@ -16,10 +16,11 @@ export default {
       isSaving: false,
       isEditing: false,
       isNew: false,
-      err: null,
+      err: null
     };
     return (state = initialData, { type, payload }) => {
       switch (type) {
+        case "EDITOR_DISABLE_OPEN_FETCH":
         case "EDITOR_FETCH_TEMPLATE":
         case "EDITOR_DELETE_SUCCESS":
         case "EDITOR_DELETE_ERROR":
@@ -38,30 +39,30 @@ export default {
       }
     };
   },
-  doEditorOpen: (filename) => ({ dispatch, store }) => {
+  doEditorOpen: filename => ({ dispatch, store }) => {
     if (filename) {
       let token = store.selectAuthToken();
       const root = store.selectFilesAPIRoot();
       fetch(`${root}/api/files/${filename}`, {
         method: "GET",
         mode: "cors",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` }
       })
-        .then((response) => {
+        .then(response => {
           return response.text();
         })
-        .then((data) => {
+        .then(data => {
           console.log(data);
           dispatch({
             type: "EDITOR_FETCH_SUCCESS",
             payload: {
               filename: filename,
               content: data,
-              isNew: false,
-            },
+              isNew: false
+            }
           });
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(" did not grab file content", error);
         });
     } else {
@@ -70,8 +71,8 @@ export default {
         payload: {
           filename: "NewFile.map",
           content: "//Start Here",
-          isNew: true,
-        },
+          isNew: true
+        }
       });
     }
     store.doUpdateUrl(`/files/${filename}`);
@@ -83,23 +84,23 @@ export default {
     fetch(`${root}/api/templates/${template}`, {
       method: "GET",
       mode: "cors",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${token}` }
     })
-      .then((response) => {
+      .then(response => {
         return response.text();
       })
-      .then((data) => {
+      .then(data => {
         console.log("template", data);
         dispatch({
           type: "EDITOR_FETCH_TEMPLATE",
           payload: {
             filename: template,
             content: data,
-            isNew: true,
-          },
+            isNew: true
+          }
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("template does not exist", error);
       });
     store.doUpdateUrl(`/files/${template}`);
@@ -110,12 +111,16 @@ export default {
       payload: {
         filename: filename,
         content: content,
-        isEditing: true,
-      },
+        isEditing: true
+      }
     });
   },
 
-  doEditorDelete: (filename) => ({ dispatch, store }) => {
+  doEditorDelete: filename => ({ dispatch, store }) => {
+    dispatch({
+      type: "EDITOR_DISABLE_OPEN_FETCH",
+      payload: { isEditing: true }
+    });
     const root = store.selectFilesAPIRoot();
     let token = store.selectAuthToken();
     // const filename = store.selectEditorFilename();
@@ -124,29 +129,29 @@ export default {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify({ filename }),
+      body: JSON.stringify({ filename })
     })
-      .then((response) => {
+      .then(response => {
         return response.ok;
       })
-      .then((ok) => {
+      .then(ok => {
         if (ok) {
           dispatch({
             type: "EDITOR_DELETE_SUCCESS",
-            payload: {},
+            payload: {}
           });
         } else {
           dispatch({ type: "EDITOR_DELETE_ERROR", payload: {} });
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
       });
   },
 
-  doEditorPut: (filename) => ({ dispatch, store }) => {
+  doEditorPut: filename => ({ dispatch, store }) => {
     const root = store.selectFilesAPIRoot();
     const content = store.selectEditorContent();
     const existingFilename = store.selectPathname();
@@ -157,32 +162,33 @@ export default {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify({ content, filename }),
+      body: JSON.stringify({ content, filename })
     })
-      .then((response) => {
+      .then(response => {
         return response.ok;
       })
-      .then((ok) => {
+      .then(ok => {
         if (ok) {
           console.log("is saving", ok);
           dispatch({
             type: "EDITOR_PUT_SUCCESS",
-            payload: { isSaving: false, isEditing: false },
+            payload: { isSaving: false, isEditing: false }
           });
         } else {
           dispatch({
             type: "EDITOR_PUT_ERROR",
-            payload: { isEditing: false, isSaving: false },
+            payload: { isEditing: false, isSaving: false, isNew: true }
           });
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
       });
+    store.doUpdateUrl(`/files/${filename}`);
   },
-  doEditorPost: (filename) => ({ dispatch, store }) => {
+  doEditorPost: filename => ({ dispatch, store }) => {
     const root = store.selectFilesAPIRoot();
     const content = store.selectEditorContent();
     let token = store.selectAuthToken();
@@ -191,39 +197,39 @@ export default {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
         filename: filename,
-        content: content,
-      }),
+        content: content
+      })
     })
-      .then((response) => {
+      .then(response => {
         return response.ok;
       })
-      .then((ok) => {
+      .then(ok => {
         if (ok) {
           console.log("is saving", ok);
           dispatch({
             type: "EDITOR_POST_SUCCESS",
-            payload: { isSaving: false, isEditing: false },
+            payload: { isSaving: false, isEditing: false }
           });
         } else {
           dispatch({
             type: "EDITOR_POST_ERROR",
-            payload: { err: true },
+            payload: { err: true, isSaving: false }
           });
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
       });
   },
 
-  doEditorSave: (filename) => ({ dispatch, store }) => {
+  doEditorSave: filename => ({ dispatch, store }) => {
     dispatch({
       type: "EDITOR_SAVE_STARTED",
-      payload: { isSaving: true, isEditing: false, err: null },
+      payload: { isSaving: true, isEditing: false, err: null }
     });
     // const filename = store.selectEditorFilename();
     console.log("save", filename);
@@ -234,22 +240,22 @@ export default {
       store.doEditorPut(filename);
     }
   },
-  selectEditorError: (state) => {
+  selectEditorError: state => {
     return state.editor.err;
   },
-  selectEditorIsNew: (state) => {
+  selectEditorIsNew: state => {
     return state.editor.isNew;
   },
-  selectEditorIsSaving: (state) => {
+  selectEditorIsSaving: state => {
     return state.editor.isSaving;
   },
-  selectEditorContent: (state) => {
+  selectEditorContent: state => {
     return state.editor.content;
   },
-  selectEditorFilename: (state) => {
+  selectEditorFilename: state => {
     return state.editor.filename;
   },
-  selectEditorIsEditing: (state) => {
+  selectEditorIsEditing: state => {
     return state.editor.isEditing;
-  },
+  }
 };

@@ -10,19 +10,29 @@ import Tooltip from "react-bootstrap/Tooltip";
 import "./filelist.scss";
 //ul li
 
-export default connect(
-  "selectFilesItems",
-  "selectEditorIsEditing",
-  "doEditorOpen",
-  "doEditorDelete",
-  "doEditorOpenTemplate",
-  ({
-    filesItems,
-    editorIsEditing,
-    doEditorOpen,
-    doEditorDelete,
-    doEditorOpenTemplate,
-  }) => {
+class FileList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onOpenTemplate = this.onOpenTemplate.bind(this);
+    this.onAddNewFile = this.onAddNewFile.bind(this);
+    this.onDeleteFile = this.onDeleteFile.bind(this);
+    this.onOpenFile = this.onOpenFile.bind(this);
+  }
+  onOpenTemplate(e) {
+    this.props.doEditorOpenTemplate();
+  }
+  onOpenFile(filename) {
+    this.props.doEditorOpen(filename);
+  }
+  onDeleteFile(file) {
+    this.props.doEditorDelete(file);
+  }
+  onAddNewFile() {
+    this.props.doEditorOpen();
+  }
+  render() {
+    let editing = this.props.editorIsEditing;
+    let filesItems = this.props.filesItems;
     return (
       <Tab.Container id="list-group-tabs-example" defaultActiveKey="false">
         <Col>
@@ -31,7 +41,7 @@ export default connect(
               variant="info"
               className="CardBtn"
               onClick={() => {
-                doEditorOpen();
+                this.onAddNewFile();
               }}
             >
               Add New File
@@ -40,7 +50,7 @@ export default connect(
               variant="dark"
               className="CardBtn"
               onClick={() => {
-                doEditorOpenTemplate();
+                this.onOpenTemplate();
               }}
             >
               Use Template File
@@ -60,21 +70,21 @@ export default connect(
                 >
                   <ListGroup.Item
                     as="li"
-                    disabled={editorIsEditing}
-                    active={editorIsEditing}
+                    disabled={editing}
+                    active={editing}
                     variant="light"
                     action
                     href={"#" + i}
                     key={i}
                     onClick={() => {
-                      doEditorOpen(file.filename);
+                      this.onOpenFile(file.filename);
                     }}
                   >
                     <h5 className="file">{file.filename}</h5>
                     <Button
                       variant="primary"
                       className="deleteBtn"
-                      onClick={() => doEditorDelete(file.filename)}
+                      onClick={() => this.onDeleteFile(file.filename)}
                     >
                       X
                     </Button>
@@ -87,4 +97,13 @@ export default connect(
       </Tab.Container>
     );
   }
+}
+
+export default connect(
+  "selectFilesItems",
+  "selectEditorIsEditing",
+  "doEditorOpen",
+  "doEditorDelete",
+  "doEditorOpenTemplate",
+  FileList
 );

@@ -1,7 +1,7 @@
 // import { createSelector } from 'redux-bundler';
 const actions = {
   FETCH_SUCESS: "FETCH_SUCCESS",
-  FETCH_START: "FETCH_START",
+  FETCH_START: "FETCH_START"
 };
 
 // you can create on giant action file
@@ -15,7 +15,7 @@ export default {
       apiRoot:
         process.env.NODE_ENV === "development" ? "http://localhost:3030" : "",
       items: [],
-      shouldFetch: true,
+      shouldFetch: true
     };
     // if state has something it it ignores initial data but not it sets it as state,
     //
@@ -50,40 +50,40 @@ export default {
     dispatch({
       type: "FETCH_START",
       payload: {
-        shouldFetch: false,
-      },
+        shouldFetch: false
+      }
     });
     const root = store.selectFilesAPIRoot();
     let token = store.selectAuthToken();
     fetch(`${root}/api/files`, {
       method: "GET",
       mode: "cors",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${token}` }
     })
-      .then((response) => {
+      .then(response => {
         return response.json();
       })
-      .then((data) => {
+      .then(data => {
         dispatch({
           type: actions.FETCH_SUCESS,
           payload: {
-            items: data,
-          },
+            items: data
+          }
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("files did not fetch", error);
         //if network flakes or repsonse isnt json
       }); // only if running on the same route of our api otherwise us await async
   }, // dispacth sends an action to a reducer
 
-  selectFilesAPIRoot: (state) => {
+  selectFilesAPIRoot: state => {
     return state.files.apiRoot;
   },
-  selectFilesItems: (state) => {
+  selectFilesItems: state => {
     return state.files.items;
   },
-  reactFilesShouldFetch: (state) => {
+  reactFilesShouldFetch: state => {
     if (state.files.shouldFetch) return { actionCreator: "doFilesFetch" };
-  },
+  }
 };

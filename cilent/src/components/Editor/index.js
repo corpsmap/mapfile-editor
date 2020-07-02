@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-
+import FormControl from "react-bootstrap/FormControl";
 import Spinner from "react-bootstrap/Spinner";
 import Container from "react-bootstrap/Container";
 import Header from "react-bootstrap/ModalHeader";
@@ -44,8 +44,10 @@ class Editor extends React.Component {
   render() {
     const code = this.props.editorContent;
     let currentFile = this.props.editorFilename;
+    let saveError = this.props.editorError;
+
     const options = {
-      selectOnLineNumbers: true,
+      selectOnLineNumbers: true
     };
     console.log(this.props.editorIsSaving);
     return (
@@ -65,7 +67,12 @@ class Editor extends React.Component {
                         placeholder={currentFile}
                         value={currentFile}
                         onChange={this.onNameChange}
-                      ></Form.Control>{" "}
+                        isInvalid={saveError}
+                      ></Form.Control>
+                      <FormControl.Feedback type="invalid" tooltip="true">
+                        File <strong>Not Saved</strong> Please{" "}
+                        <strong>Rename the Filename..</strong>
+                      </FormControl.Feedback>
                     </Col>
                   </Form.Group>
                   <Button
