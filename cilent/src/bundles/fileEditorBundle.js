@@ -249,6 +249,9 @@ export default {
       store.doEditorPut(filename);
     }
   },
+  selectEditorIsDeleting: (state) => {
+    return state.editor.isDeleting;
+  },
   selectEditorError: (state) => {
     return state.editor.err;
   },
