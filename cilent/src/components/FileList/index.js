@@ -7,6 +7,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Tab from "react-bootstrap/Tab";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
+import Switch from "../ToggleSwitch";
 import "./filelist.scss";
 //ul li
 
@@ -17,6 +18,8 @@ class FileList extends React.Component {
     this.onAddNewFile = this.onAddNewFile.bind(this);
     this.onDeleteFile = this.onDeleteFile.bind(this);
     this.onOpenFile = this.onOpenFile.bind(this);
+    this.toggleDelete = this.toggleDelete.bind(this);
+    this.toggleDelOff = this.toggleDelOff.bind(this);
   }
   onOpenTemplate(e) {
     this.props.doEditorOpenTemplate();
@@ -30,9 +33,25 @@ class FileList extends React.Component {
   onAddNewFile() {
     this.props.doEditorOpen();
   }
+  toggleDelete(event) {
+    var bool = event.target.value;
+    console.log(bool, "toggle status");
+    if (bool === false) {
+      this.props.doToggleDeleteOn();
+    } else {
+      this.props.doToggleDeleteOff();
+    }
+    console.log(this.props.doToggleDeleteOn(), "A");
+    console.log(this.props.doToggleDeleteOff(), "B");
+  }
+  toggleDelOff() {
+    this.props.doToggleDeleteOff();
+  }
   render() {
     let editing = this.props.editorIsEditing;
     let filesItems = this.props.filesItems;
+    let isDeleting = this.props.editorIsDeleting;
+    console.log(isDeleting, "delete status");
     return (
       <Tab.Container id="list-group-tabs-example" defaultActiveKey="false">
         <Col>
@@ -55,7 +74,15 @@ class FileList extends React.Component {
             >
               Use Template File
             </Button>
-            <Card.Header as="h4">Map Files</Card.Header>
+            <Card.Header as="h4">
+              Map Files{" "}
+              <Switch
+                theme="default"
+                className="d-flex"
+                enabled={isDeleting}
+                onStateChanged={this.toggleDelete}
+              ></Switch>
+            </Card.Header>
             <ListGroup as="ul">
               {filesItems.map((file, i) => (
                 <OverlayTrigger
@@ -82,9 +109,10 @@ class FileList extends React.Component {
                   >
                     <h5 className="file">{file.filename}</h5>
                     <Button
-                      variant="primary"
+                      variant="danger"
                       className="deleteBtn"
                       onClick={() => this.onDeleteFile(file.filename)}
+                      disabled={isDeleting}
                     >
                       X
                     </Button>
@@ -102,8 +130,12 @@ class FileList extends React.Component {
 export default connect(
   "selectFilesItems",
   "selectEditorIsEditing",
+  "selectEditorError",
+  "selectEditorIsDeleting",
   "doEditorOpen",
   "doEditorDelete",
   "doEditorOpenTemplate",
+  "doToggleDeleteOn",
+  "doToggleDeleteOff",
   FileList
 );

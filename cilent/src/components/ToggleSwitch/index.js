@@ -5,7 +5,6 @@ import React, { Component } from "react";
 import isBoolean from "lodash/isBoolean";
 import isFunction from "lodash/isFunction";
 import "./index.scss";
-import { connect } from "redux-bundler-react";
 
 class ToggleSwitch extends Component {
   state = { enabled: this.enabledFromProps() };
@@ -38,6 +37,38 @@ class ToggleSwitch extends Component {
       isFunction(onStateChanged) && onStateChanged(state);
     });
   };
+  render() {
+    const { enabled } = this.state;
+
+    // Isolate special props and store the remaining as restProps
+    const {
+      enabled: _enabled,
+      theme,
+      onClick,
+      className,
+      onStateChanged,
+      ...restProps
+    } = this.props;
+
+    // Use default as a fallback theme if valid theme is not passed
+    const switchTheme = theme && isString(theme) ? theme : "default";
+
+    const switchClasses = classnames(
+      `switch switch--${switchTheme}`,
+      className
+    );
+
+    const togglerClasses = classnames(
+      "switch-toggle",
+      `switch-toggle--${enabled ? "on" : "off"}`
+    );
+
+    return (
+      <div className={switchClasses} onClick={this.toggleSwitch} {...restProps}>
+        <div className={togglerClasses}></div>
+      </div>
+    );
+  }
 }
 
 ToggleSwitch.propTypes = {
@@ -46,4 +77,4 @@ ToggleSwitch.propTypes = {
   onStateChanged: PropTypes.func,
 };
 
-export default connect("selectEditorError", ToggleSwitch);
+export default ToggleSwitch;

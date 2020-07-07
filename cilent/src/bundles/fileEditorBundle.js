@@ -15,7 +15,7 @@ export default {
       content: null,
       isSaving: false,
       isEditing: false,
-      isDeleting: false,
+      isDeleting: true,
       isNew: false,
       err: null,
     };
@@ -120,13 +120,13 @@ export default {
   doToggleDeleteOn: () => ({ dispatch, store }) => {
     dispatch({
       type: "EDITOR_DISABLE_FETCH",
-      payload: { isEditing: true, isDeleting: true },
+      payload: { isDeleting: false },
     });
   },
-  doToggleDeletOff: () => ({ dispatch, store }) => {
+  doToggleDeleteOff: () => ({ dispatch, store }) => {
     dispatch({
       type: "EDITOR_ENABLE_FETCH",
-      payload: { isEditing: false, isDeleting: false },
+      payload: { isDeleting: true },
     });
   },
   doEditorDelete: (filename) => ({ dispatch, store }) => {
@@ -260,6 +260,9 @@ export default {
   },
   selectEditorIsSaving: (state) => {
     return state.editor.isSaving;
+  },
+  selectEditorIsNotSaving: (state) => {
+    return !state.editor.isSaving;
   },
   selectEditorContent: (state) => {
     return state.editor.content;

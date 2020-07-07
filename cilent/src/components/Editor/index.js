@@ -8,9 +8,10 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import FormControl from "react-bootstrap/FormControl";
-import Spinner from "react-bootstrap/Spinner";
+// import Spinner from "react-bootstrap/Spinner";
 import Container from "react-bootstrap/Container";
 import Header from "react-bootstrap/ModalHeader";
+
 import "./index.scss";
 // list filename above editor with status edited
 // need filename from store called in string
@@ -45,11 +46,14 @@ class Editor extends React.Component {
     const code = this.props.editorContent;
     let currentFile = this.props.editorFilename;
     let saveError = this.props.editorError;
+    let editorSave = this.props.editorIsSaving;
+    let editorSaveOff = this.props.editorIsNotSaving;
 
     const options = {
-      selectOnLineNumbers: true
+      selectOnLineNumbers: true,
     };
-    console.log(this.props.editorIsSaving);
+
+    console.log(editorSaveOff, "save off", editorSave, "save on status");
     return (
       <div>
         {currentFile ? (
@@ -76,20 +80,20 @@ class Editor extends React.Component {
                     </Col>
                   </Form.Group>
                   <Button
-                    disabled={this.props.editorIsSaving}
-                    onClick={this.onUpdate}
+                    disabled={editorSave}
+                    onClick={!editorSave ? this.onUpdate : null}
                     type="submit"
                   >
-                    {" "}
-                    Save File
+                    {/* {" "}
                     <Spinner
                       as="span"
                       animation="grow"
                       size="sm"
                       role="status"
-                      aria-hidden={this.props.editorIsSaving}
+                      aria-hidden={!editorSave}
                     />
-                    <span className="sr-only">Saving..</span>
+                    <span className="sr-only">Saving..</span> */}
+                    Save File
                   </Button>
                 </Form>{" "}
                 <div className="position-relative">
@@ -125,6 +129,7 @@ export default connect(
   "selectEditorContent",
   "selectEditorIsSaving",
   "selectEditorFilename",
+  "selectEditorIsNotSaving",
   "selectEditorError",
   "doEditorUpdate",
   "doEditorPut",
