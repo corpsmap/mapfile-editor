@@ -75,14 +75,19 @@ class FileList extends React.Component {
             >
               Use Template File
             </Button>
-            <Card.Header as="h4">
+            <Card.Header as="h4" className="d-inline">
               Map Files{" "}
-              <Switch
-                theme="default"
-                className="d-flex"
-                enabled={this.onEnabled}
-                onStateChanged={this.toggleDelete}
-              ></Switch>
+              <OverlayTrigger
+                placement="left"
+                overlay={<Tooltip id={`tooltip-left`}>Enable Delete</Tooltip>}
+              >
+                <Switch
+                  theme="default"
+                  className="d-flex"
+                  enabled={this.onEnabled}
+                  onStateChanged={this.toggleDelete}
+                />
+              </OverlayTrigger>
             </Card.Header>
             <ListGroup>
               {filesItems.map((file, i) => (
