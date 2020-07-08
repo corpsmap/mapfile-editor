@@ -47,13 +47,11 @@ class Editor extends React.Component {
     let currentFile = this.props.editorFilename;
     let saveError = this.props.editorError;
     let editorSave = this.props.editorIsSaving;
-    let editorSaveOff = this.props.editorIsNotSaving;
 
     const options = {
       selectOnLineNumbers: true,
     };
 
-    console.log(editorSaveOff, "save off", editorSave, "save on status");
     return (
       <div>
         {currentFile ? (
@@ -129,7 +127,6 @@ export default connect(
   "selectEditorContent",
   "selectEditorIsSaving",
   "selectEditorFilename",
-  "selectEditorIsNotSaving",
   "selectEditorError",
   "doEditorUpdate",
   "doEditorPut",

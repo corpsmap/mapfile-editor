@@ -15,14 +15,14 @@ export default {
       content: null,
       isSaving: false,
       isEditing: false,
-      isDeleting: true,
+      isDeleting: null,
       isNew: false,
       err: null,
     };
     return (state = initialData, { type, payload }) => {
       switch (type) {
-        case "EDITOR_ENABLE_FETCH":
-        case "EDITOR_DISABLE_FETCH":
+        case "EDITOR_ENABLE_DEL":
+        case "EDITOR_DISABLE_DEL":
         case "EDITOR_FETCH_TEMPLATE":
         case "EDITOR_DELETE_SUCCESS":
         case "EDITOR_DELETE_ERROR":
@@ -117,16 +117,16 @@ export default {
       },
     });
   },
-  doToggleDeleteOn: () => ({ dispatch, store }) => {
+  doEditorDelOn: () => ({ dispatch, store }) => {
     dispatch({
-      type: "EDITOR_DISABLE_FETCH",
-      payload: { isDeleting: false },
+      type: "EDITOR_DISABLE_DEL",
+      payload: { isEditing: true, isDeleting: false },
     });
   },
-  doToggleDeleteOff: () => ({ dispatch, store }) => {
+  doEditorDelOff: () => ({ dispatch, store }) => {
     dispatch({
-      type: "EDITOR_ENABLE_FETCH",
-      payload: { isDeleting: true },
+      type: "EDITOR_ENABLE_DEL",
+      payload: { isEditing: false, isDeleting: true },
     });
   },
   doEditorDelete: (filename) => ({ dispatch, store }) => {
@@ -273,5 +273,5 @@ export default {
   selectEditorIsEditing: (state) => {
     return state.editor.isEditing;
   },
-  persistActions: ["EDITOR_ENABLE_FETCH", "EDITOR_DISABLE_FETCH"],
+  persistActions: ["EDITOR_ENABLE_DEL", "EDITOR_DISABLE_DEL"],
 };

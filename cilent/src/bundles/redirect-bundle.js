@@ -14,21 +14,7 @@ export default {
       }
     };
   },
-  // doTimeout: () => ({ dispatch, store }) => {
-  //   let allowRunTimeout = store.selectAuthIsLoggedIn();
-  //   let filename = store.selectEditorFilename();
-  //   dispatch({
-  //     type: "REDIRECT_SUCCESS",
-  //     payload: { shouldWait: false },
-  //   });
-  //   if (allowRunTimeout) {
-  //     return setTimeout(() => {
-  //       store.doUpdateUrl(`/files/${filename}`);
-  //     }, 3000);
-  //   } else {
-  //     return store.Window.alert("Please login");
-  //   }
-  // },
+
   reactRedirects: createSelector(
     "selectAuthIsLoggedIn",
     "selectPathname",
@@ -45,9 +31,6 @@ export default {
       if (pathname !== "/" && pathname.endsWith("/")) {
         return { actionCreator: "doReplaceUrl", args: [pathname.slice(0, -1)] };
       }
-      //   if (!authIsLoggedIn && pathname !== "/files" && pathname.endsWith("/")) {
-      //     return { actionCreator: "doReplaceUrl", args: [pathname.slice(0, -1)] };
-      //   }
     }
   ),
 };

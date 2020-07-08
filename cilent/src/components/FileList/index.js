@@ -19,7 +19,12 @@ class FileList extends React.Component {
     this.onDeleteFile = this.onDeleteFile.bind(this);
     this.onOpenFile = this.onOpenFile.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
-    this.toggleDelOff = this.toggleDelOff.bind(this);
+    this.onEnabled = this.onEnabled.bind(this);
+  }
+  // onEnable ensures switch is matches boolean of switch event
+  onEnabled(bool) {
+    let enabled = bool;
+    return enabled;
   }
   onOpenTemplate(e) {
     this.props.doEditorOpenTemplate();
@@ -33,20 +38,16 @@ class FileList extends React.Component {
   onAddNewFile() {
     this.props.doEditorOpen();
   }
-  toggleDelete(event) {
-    var bool = event.target.value;
-    console.log(bool, "toggle status");
-    if (bool === false) {
-      this.props.doToggleDeleteOn();
+  // toggle delete uses event from switch to activate actions to change state of editorIsDeleting
+  toggleDelete({ enabled }) {
+    this.onEnabled(enabled);
+    if (enabled === true) {
+      return this.props.doEditorDelOn();
     } else {
-      this.props.doToggleDeleteOff();
+      return this.props.doEditorDelOff();
     }
-    console.log(this.props.doToggleDeleteOn(), "A");
-    console.log(this.props.doToggleDeleteOff(), "B");
   }
-  toggleDelOff() {
-    this.props.doToggleDeleteOff();
-  }
+
   render() {
     let editing = this.props.editorIsEditing;
     let filesItems = this.props.filesItems;
@@ -79,47 +80,55 @@ class FileList extends React.Component {
               <Switch
                 theme="default"
                 className="d-flex"
-                enabled={isDeleting}
+                enabled={this.onEnabled}
                 onStateChanged={this.toggleDelete}
               ></Switch>
             </Card.Header>
-            <ListGroup as="ul">
+            <div>
               {filesItems.map((file, i) => (
-                <OverlayTrigger
-                  key={i}
-                  placement="left"
-                  overlay={
-                    <Tooltip id={`tooltip-left`}>
-                      {" "}
-                      Click on the filename to open the <strong>Editor</strong>
-                    </Tooltip>
-                  }
-                >
-                  <ListGroup.Item
-                    as="li"
-                    disabled={editing}
-                    active={editing}
-                    variant="light"
-                    action
-                    href={"#" + i}
+                <ListGroup horizontal={file} key={i}>
+                  <OverlayTrigger
                     key={i}
-                    onClick={() => {
-                      this.onOpenFile(file.filename);
-                    }}
+                    placement="left"
+                    overlay={
+                      <Tooltip id={`tooltip-left`}>
+                        {" "}
+                        Click on the filename to open the{" "}
+                        <strong>Editor</strong>
+                      </Tooltip>
+                    }
                   >
-                    <h5 className="file">{file.filename}</h5>
-                    <Button
-                      variant="danger"
-                      className="deleteBtn"
-                      onClick={() => this.onDeleteFile(file.filename)}
-                      disabled={isDeleting}
+                    <ListGroup.Item
+                      bsPrefix="list-item"
+                      as="a"
+                      disabled={editing}
+                      active={editing}
+                      variant="light"
+                      action
+                      key={i}
+                      href={"#" + i}
+                      onClick={() => {
+                        this.onOpenFile(file.filename);
+                      }}
                     >
-                      X
-                    </Button>
-                  </ListGroup.Item>
-                </OverlayTrigger>
+                      <h5 className="file">
+                        {file.filename}
+
+                        <Button
+                          key={i + "del"}
+                          variant="danger"
+                          className="deleteBtn"
+                          onClick={() => this.onDeleteFile(file.filename)}
+                          disabled={isDeleting}
+                        >
+                          X
+                        </Button>
+                      </h5>
+                    </ListGroup.Item>
+                  </OverlayTrigger>
+                </ListGroup>
               ))}
-            </ListGroup>
+            </div>
           </Card>
         </Col>
       </Tab.Container>
@@ -135,7 +144,7 @@ export default connect(
   "doEditorOpen",
   "doEditorDelete",
   "doEditorOpenTemplate",
-  "doToggleDeleteOn",
-  "doToggleDeleteOff",
+  "doEditorDelOn",
+  "doEditorDelOff",
   FileList
 );
