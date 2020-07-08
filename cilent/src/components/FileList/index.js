@@ -84,51 +84,45 @@ class FileList extends React.Component {
                 onStateChanged={this.toggleDelete}
               ></Switch>
             </Card.Header>
-            <div>
+            <ListGroup>
               {filesItems.map((file, i) => (
-                <ListGroup horizontal={file} key={i}>
-                  <OverlayTrigger
+                <OverlayTrigger
+                  key={i}
+                  placement="left"
+                  overlay={
+                    <Tooltip id={`tooltip-left`}>
+                      {" "}
+                      Click on the filename to open the <strong>Editor</strong>
+                    </Tooltip>
+                  }
+                >
+                  <ListGroup.Item
+                    bsPrefix="list-item"
+                    as="a"
+                    disabled={editing}
+                    active={editing}
+                    variant="light"
+                    action
                     key={i}
-                    placement="left"
-                    overlay={
-                      <Tooltip id={`tooltip-left`}>
-                        {" "}
-                        Click on the filename to open the{" "}
-                        <strong>Editor</strong>
-                      </Tooltip>
-                    }
+                    href={"#" + i}
+                    onClick={() => {
+                      this.onOpenFile(file.filename);
+                    }}
                   >
-                    <ListGroup.Item
-                      bsPrefix="list-item"
-                      as="a"
-                      disabled={editing}
-                      active={editing}
-                      variant="light"
-                      action
-                      key={i}
-                      href={"#" + i}
-                      onClick={() => {
-                        this.onOpenFile(file.filename);
-                      }}
+                    <h5 className="file">{file.filename}</h5>
+                    <Button
+                      key={i + "del"}
+                      variant="danger"
+                      className="deleteBtn"
+                      onClick={() => this.onDeleteFile(file.filename)}
+                      disabled={isDeleting}
                     >
-                      <h5 className="file">
-                        {file.filename}
-
-                        <Button
-                          key={i + "del"}
-                          variant="danger"
-                          className="deleteBtn"
-                          onClick={() => this.onDeleteFile(file.filename)}
-                          disabled={isDeleting}
-                        >
-                          X
-                        </Button>
-                      </h5>
-                    </ListGroup.Item>
-                  </OverlayTrigger>
-                </ListGroup>
+                      X
+                    </Button>
+                  </ListGroup.Item>
+                </OverlayTrigger>
               ))}
-            </div>
+            </ListGroup>
           </Card>
         </Col>
       </Tab.Container>
