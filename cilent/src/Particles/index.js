@@ -1,6 +1,6 @@
 import React from "react";
 import Particles from "react-particles-js";
-import "./particles.scss";
+import "./particles.css";
 
 function ParticlesDom() {
   return (
