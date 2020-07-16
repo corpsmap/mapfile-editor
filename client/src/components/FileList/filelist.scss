@@ -1,0 +1,19 @@
+.deleteBtn {
+  float: right;
+  z-index: +1;
+}
+.file {
+  float: left;
+  position: relative;
+  padding-top: 0.5rem;
+  padding-left: 0.5rem;
+}
+.list-item {
+  border: 1px solid#f8f9fa;
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+}
+
+.d-flex {
+  float: right;
+}
