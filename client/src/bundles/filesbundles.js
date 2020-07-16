@@ -13,7 +13,9 @@ export default {
   getReducer: () => {
     const initialData = {
       apiRoot:
-        process.env.NODE_ENV === "development" ? "http://localhost:3030" : "",
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3030"
+          : "/mapfile-editor",
       items: [],
       shouldFetch: true,
     };
