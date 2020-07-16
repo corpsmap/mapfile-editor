@@ -105,7 +105,7 @@ export default {
       .catch((error) => {
         console.log("template does not exist", error);
       });
-    store.doUpdateUrl(`/files/${template}`);
+    store.doUpdateUrlWithHomepage(`/files/${template}`);
   },
   doEditorUpdate: (filename, content) => ({ dispatch, store }) => {
     dispatch({
