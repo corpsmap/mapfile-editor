@@ -3,13 +3,13 @@
 A polished web application that allows a user to edit and save mapfiles through a userinterface on Amazon Web Services connected to our map server.
 
 For more information on map servers and IDEs apps for map files:
-[Click Here](https://www.mapserver.org/about.html)
+https://www.mapserver.org/about.html
 
 ## Users Story
 
---As a user I want to be able to edit and save mapfiles on our
+As a user I want to be able to edit and save mapfiles on our
 Map Instance inside the Amazon Web Server. So I don't have to
-upload over file transfer protocol or secure shell protocol.--
+upload over file transfer protocol or secure shell protocol.
 
 ## Business Context
 
@@ -32,7 +32,7 @@ the map files over a low bandwidth secure network.
 
 ## Application Flow Chart
 
-![Flow Chart](assets\mapserver-App_flow-Page-2.png)
+![Flow Chart](./assets/mapserver-App_flow-Page-2.png)
 
 ## Tasks
 
@@ -96,8 +96,8 @@ _ .map files are written in C or C++
 
 ## Views
 
-![Landing Page](assets\landingpage.png)
+![Landing Page](./assets/landingpage.png)
 
-![User Logged In](assets\signedInMapfile.png)
+![User Logged In](./assets/signedInMapfile.png)
 
-![Editor Page](assets\editorPage.png)
+![Editor Page](./assets/editorPage.png)
