@@ -1,6 +1,9 @@
 # Map File Editor
 
-A polished web application that allows a user to edit and save mapfiles through a userinterface on www.mapserver.org.
+A polished web application that allows a user to edit and save mapfiles through a userinterface on Amazon Web Services connected to our map server.
+
+For more information on map servers and IDEs apps for map files:
+[Click Here](https://www.mapserver.org/about.html)
 
 ## Users Story
 
@@ -16,29 +19,32 @@ Twitter or File updater
 
 - CSS Bootstrap
 - React
-- MONACO visio studo code module
-- NODE JS
-- EXPRESS.JS
+- State Management using Redux-Bundler
+- Microsoft MONACO IDE editor
+- Node.JS
+- Express.JS
 - cilent side is static cilent
 - applicaiton is self contained
 - API endpoints for CRUD ops
-- Using GIT on DI2E
-- ...maybe postsql
-- redux
+- Using version control on https://bitbucket.di2e.net/ and https://github.com/corpsmap/mapfile-editor
+
+## Application Flow Chart
+
+![Flow Chart](assets\mapserver-App_flow-Page-2.png)
 
 ## Tasks
 
-[Flow Chart](./assets/mapserver.html)
-
 ### Schedule of Scope
 
-1. HTML and Web Pages 1st week of April
+1. Research, Planning, Design of App month of April
 
-2. API Routes and Front end logic 2nd Week of April
+2. Redux, API Routes and Front end logic May to June
 
-3. Styling 3rd and 4th Week of April
+3. Styling 3rd and 4th Week of Jun
 
-4. Debug testing 1st Week of May
+4. Debug testing 1st and 2nd Week of July
+
+5. Presentation to GIS branch and Engineering Staff July 17, 2020
 
 ## Notes
 
@@ -78,12 +84,18 @@ D. Database on the backend oracle, sequelize
 
   `npx create-react-app cilent`
 
-### Map files
+## On Map files
 
 _Mapserver renders the map file as an image, or JSON, or text from the backend._
 _ We are using JSON or string
-_ .map files are written in C or C++  
-  
-changing the data scource,
+_ .map files are written in C or C++
 
-Set up a brownbag and DEMO with KANSAS city
+## [Deployed Application on AWS](http://ec2-107-20-76-219.compute-1.amazonaws.com/mapfile-editor/app/)
+
+## Views
+
+![Landing Page](assets\landingpage.png)
+
+![User Logged In](assets\signedInMapfile.png)
+
+![Editor Page](assets\editorPage.png)
