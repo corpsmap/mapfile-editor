@@ -26,7 +26,7 @@ const exists = (filename) => {
 /**
  * Get contents of a template file
  */
-router.use("/templates", express.static(templatePath));
+router.use("/templates", express.static(path.join(templatePath)));
 
 /**
  * Get a list of files in our mapfiles folder

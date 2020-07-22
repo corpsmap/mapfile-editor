@@ -7,10 +7,6 @@ const pkg = require("./package.json");
 const port = process.env.PORT;
 const cors = require("cors");
 
-// load our environment variables from the .env file
-const dotenv = require('dotenv');
-dotenv.config();
-
 app.use(cors());
 // add body parser so that we can get our data from the request
 app.use(bodyParser.json());
