@@ -13,7 +13,9 @@ upload over file transfer protocol or secure shell protocol.--
 
 ## Business Context
 
-Twitter or File updater
+An IDE editor web application deployed to the AWS cloud connected to our map server to access
+all map files. So a user can edit them in place saving the user time from downloading and reuploading
+the map files over a low bandwidth secure network.
 
 ## Technology Requirements
 
